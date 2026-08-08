@@ -1,0 +1,4 @@
+interface:
+  display_name: "Architecture Design"
+  short_description: "Design proportional software architecture"
+  default_prompt: "Use $arch-design to propose a proportional architecture from docs/SPEC.md and the current project context."

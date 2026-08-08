@@ -31,13 +31,13 @@ Add `scripts/`, `references/`, or `assets/` inside a skill only when the workflo
 Install one or more skills by name:
 
 ```sh
-./scripts/install.sh spec
+./scripts/install.sh spec arch-design
 ```
 
 The installer creates symlinks in `${HOME}/.agents/skills` by default. Override the destination for an isolated environment or test:
 
 ```sh
-AI_SKILLS_TARGET_DIR=/path/to/skills ./scripts/install.sh spec
+AI_SKILLS_TARGET_DIR=/path/to/skills ./scripts/install.sh spec arch-design
 ```
 
 The installer never replaces an existing file, directory, or different symlink. If Codex does not detect a newly installed skill, restart Codex.
