@@ -13,12 +13,14 @@ Use `$arch-design` to add the approved CSV export feature to this existing appli
 ## Expected behavior
 
 - Inspect and preserve the current feature-oriented structure.
-- Describe only the architectural delta needed for a pure export formatter and its invocation from the task feature.
+- Describe only the architectural rule needed to keep export behavior inside the owning feature and deterministic logic outside UI components.
 - Keep loaded task state in its current owner.
+- Preserve existing directory and naming conventions and describe the change with patterns rather than filenames.
 - Recommend focused formatter tests and a feature interaction test.
 
 ## Must not
 
 - Redesign the application into generic horizontal layers.
+- Choose names or exact locations for the export formatter, UI control, hook, or tests.
 - Add a store, service, repository, worker, or backend endpoint.
 - Infer export requirements not present in `docs/SPEC.md`.
