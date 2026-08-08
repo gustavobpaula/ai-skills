@@ -1,0 +1,4 @@
+interface:
+  display_name: "Specification"
+  short_description: "Turn requirements into a concise SPEC"
+  default_prompt: "Use $spec to turn these requirements into a concise, reviewable docs/SPEC.md."
