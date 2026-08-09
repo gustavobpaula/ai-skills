@@ -51,6 +51,8 @@ Assign one status to every active review unit:
 
 Apply `UNREQUESTED` only to concrete product behavior, public contracts, or scope-changing surfaces that are absent from the entire approved specification catalog. Do not use it for internal structure, naming, refactoring, tests, or implementation details.
 
+Do not classify a minimal defensive fallback as `UNREQUESTED` when it only rejects malformed, unsupported, or out-of-scope input safely and does not add a product capability, broaden an approved contract, or contradict specified failure behavior. Record it only when the fallback itself creates observable scope or conflicts with an approved requirement.
+
 When behavior is outside the active target but covered by another approved specification, do not classify it as `UNREQUESTED`. Report it under `Outside Active Target` with the owning specification and `FR-*` or `AC-*` identifiers. Do not assess that other specification's remaining coverage unless it is added to the active target.
 
 ## 5. Report the review

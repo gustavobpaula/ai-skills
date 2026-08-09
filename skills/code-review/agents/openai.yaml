@@ -1,0 +1,4 @@
+interface:
+  display_name: "Code Review"
+  short_description: "Run the final engineering quality gate"
+  default_prompt: "Use $code-review to review the current changes and run the project's available validation checks."
