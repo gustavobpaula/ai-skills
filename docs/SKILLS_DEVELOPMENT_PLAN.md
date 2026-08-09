@@ -350,6 +350,8 @@ Implement a feature while respecting the project's specification and documented 
 ```text
 Read SPEC.md
     ↓
+Determine active implementation target
+    ↓
 Read ARCHITECTURE.md
     ↓
 Inspect existing code
@@ -368,6 +370,10 @@ Validate
 ### Rules
 
 - Read `SPEC.md` and `ARCHITECTURE.md` before changing code when they exist.
+- Implement only the selected requirements and acceptance criteria or an equivalently bounded approved feature.
+- Treat the broader application specification and unselected feature specifications as context, not as an automatic work queue.
+- When specifications are modularized as the application grows, read the active feature specification and only the global or related documents needed to interpret it.
+- Return behavior that is absent from, ambiguous in, or inconsistent with the approved specification to the `spec` workflow before changing code.
 - Follow existing project conventions.
 - Reuse existing patterns before creating new abstractions.
 - Do not silently change architectural decisions.
@@ -398,7 +404,7 @@ The engineer decides whether the architecture should change.
 
 ### Definition of Done
 
-The skill can implement a feature without ignoring requirements or silently diverging from documented architecture.
+The skill can implement a selected feature as a coherent vertical increment without treating the full specification as authorized work, ignoring requirements, or silently diverging from documented architecture.
 
 ---
 
