@@ -412,11 +412,15 @@ The skill can implement a selected feature as a coherent vertical increment with
 
 ### Purpose
 
-Compare implementation directly against `SPEC.md`.
+Compare implementation directly against the correct approved specification and active delivery target.
 
 ### Scope
 
 This skill reviews requirements only. It should not become an architecture, performance, or style review.
+
+For a modular specification set, treat `docs/SPEC.md` as the canonical global specification or index and load every feature specification it explicitly links. Use the complete approved set as a product catalog, but classify coverage only for the active specification, `FR-*`, or `AC-*` target. Do not report future or unselected requirements as missing.
+
+Resolve the active target from an explicitly supplied specification path or identifiers when available. Otherwise, infer it from the request and affected behavior; ask the engineer to choose when multiple specifications remain plausible.
 
 ### Output categories
 
@@ -432,14 +436,20 @@ AMBIGUOUS
 ### Rules
 
 - Trace findings back to specific specification items.
-- Detect scope creep through `UNREQUESTED` findings.
+- Use active acceptance criteria as the primary review units; review requirements without criteria and mandatory constraints separately.
+- Treat assumptions, deferred work, open questions, and out-of-scope items as non-mandatory.
+- Detect scope creep through `UNREQUESTED` findings only when behavior is absent from the complete approved specification catalog.
+- When behavior is outside the active target but covered by another approved specification, reference that specification instead of marking it `UNREQUESTED`.
+- Treat code, tests, configuration, and runtime behavior as evidence, never as sources of requirements.
+- Record unavailable verification separately; do not treat an environment limitation as specification ambiguity.
 - Prioritize missing mandatory behavior over polish.
 - Do not recommend unrelated refactors.
 - Do not mark inferred requirements as mandatory unless they were accepted into the spec.
+- Keep the review read-only and leave fixes to an explicitly requested implementation workflow.
 
 ### Definition of Done
 
-The skill reliably identifies intentionally seeded missing, partial, and unnecessary functionality in test projects.
+The skill reliably selects the correct active specification, identifies intentionally seeded missing, partial, incorrect, and unnecessary functionality, and avoids false gaps from future or unrelated specifications.
 
 ---
 

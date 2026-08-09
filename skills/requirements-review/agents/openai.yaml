@@ -1,0 +1,4 @@
+interface:
+  display_name: "Requirements Review"
+  short_description: "Validate implementation against requirements"
+  default_prompt: "Use $requirements-review to compare the current implementation with the correct approved specification and report traceable coverage gaps."
