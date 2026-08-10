@@ -13,6 +13,7 @@ expected_code_review_source=$(CDPATH= cd -P "$repo_root/skills/code-review" && p
 expected_delivery_check_source=$(CDPATH= cd -P "$repo_root/skills/delivery-check" && pwd)
 expected_test_strategy_source=$(CDPATH= cd -P "$repo_root/skills/test-strategy" && pwd)
 expected_arch_review_source=$(CDPATH= cd -P "$repo_root/skills/arch-review" && pwd)
+expected_simplify_source=$(CDPATH= cd -P "$repo_root/skills/simplify" && pwd)
 test_root=$(mktemp -d "${TMPDIR:-/tmp}/ai-skills-test.XXXXXX")
 
 cleanup() {
@@ -35,7 +36,7 @@ sh -n "$installer"
 bash -n "$installer"
 
 target_dir="$test_root/target dir"
-AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review >/dev/null
+AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review simplify >/dev/null
 [ -L "$target_dir/spec" ] || fail 'installation did not create a symlink'
 [ "$(readlink "$target_dir/spec")" = "$expected_spec_source" ] || fail 'spec symlink is not absolute or points to the wrong source'
 [ -L "$target_dir/arch-design" ] || fail 'installation did not create the arch-design symlink'
@@ -52,16 +53,18 @@ AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-impleme
 [ "$(readlink "$target_dir/test-strategy")" = "$expected_test_strategy_source" ] || fail 'test-strategy symlink is not absolute or points to the wrong source'
 [ -L "$target_dir/arch-review" ] || fail 'installation did not create the arch-review symlink'
 [ "$(readlink "$target_dir/arch-review")" = "$expected_arch_review_source" ] || fail 'arch-review symlink is not absolute or points to the wrong source'
+[ -L "$target_dir/simplify" ] || fail 'installation did not create the simplify symlink'
+[ "$(readlink "$target_dir/simplify")" = "$expected_simplify_source" ] || fail 'simplify symlink is not absolute or points to the wrong source'
 
-AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review >/dev/null
-AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review arch-review >/dev/null
+AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review simplify >/dev/null
+AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review simplify simplify >/dev/null
 
 expect_failure env AI_SKILLS_TARGET_DIR="$test_root/no-args" "$installer"
 expect_failure env AI_SKILLS_TARGET_DIR="$test_root/unknown" "$installer" missing-skill
 expect_failure env AI_SKILLS_TARGET_DIR="$test_root/invalid" "$installer" ../spec
 
 partial_target="$test_root/partial"
-expect_failure env AI_SKILLS_TARGET_DIR="$partial_target" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review missing-skill
+expect_failure env AI_SKILLS_TARGET_DIR="$partial_target" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review simplify missing-skill
 [ ! -e "$partial_target/spec" ] || fail 'validation failure caused a partial installation'
 [ ! -e "$partial_target/arch-design" ] || fail 'validation failure caused a partial arch-design installation'
 [ ! -e "$partial_target/feature-implementation" ] || fail 'validation failure caused a partial feature-implementation installation'
@@ -70,6 +73,7 @@ expect_failure env AI_SKILLS_TARGET_DIR="$partial_target" "$installer" spec arch
 [ ! -e "$partial_target/delivery-check" ] || fail 'validation failure caused a partial delivery-check installation'
 [ ! -e "$partial_target/test-strategy" ] || fail 'validation failure caused a partial test-strategy installation'
 [ ! -e "$partial_target/arch-review" ] || fail 'validation failure caused a partial arch-review installation'
+[ ! -e "$partial_target/simplify" ] || fail 'validation failure caused a partial simplify installation'
 
 conflict_target="$test_root/conflict"
 mkdir -p "$conflict_target/spec"
@@ -79,7 +83,7 @@ expect_failure env AI_SKILLS_TARGET_DIR="$conflict_target" "$installer" spec
 
 batch_conflict_target="$test_root/batch-conflict"
 mkdir -p "$batch_conflict_target/arch-design"
-expect_failure env AI_SKILLS_TARGET_DIR="$batch_conflict_target" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review
+expect_failure env AI_SKILLS_TARGET_DIR="$batch_conflict_target" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review simplify
 [ ! -e "$batch_conflict_target/spec" ] || fail 'batch conflict caused a partial spec installation'
 [ ! -e "$batch_conflict_target/feature-implementation" ] || fail 'batch conflict caused a partial feature-implementation installation'
 [ ! -e "$batch_conflict_target/requirements-review" ] || fail 'batch conflict caused a partial requirements-review installation'
@@ -87,6 +91,7 @@ expect_failure env AI_SKILLS_TARGET_DIR="$batch_conflict_target" "$installer" sp
 [ ! -e "$batch_conflict_target/delivery-check" ] || fail 'batch conflict caused a partial delivery-check installation'
 [ ! -e "$batch_conflict_target/test-strategy" ] || fail 'batch conflict caused a partial test-strategy installation'
 [ ! -e "$batch_conflict_target/arch-review" ] || fail 'batch conflict caused a partial arch-review installation'
+[ ! -e "$batch_conflict_target/simplify" ] || fail 'batch conflict caused a partial simplify installation'
 [ -d "$batch_conflict_target/arch-design" ] || fail 'batch conflict directory was changed'
 [ ! -L "$batch_conflict_target/arch-design" ] || fail 'batch conflict directory was replaced by a symlink'
 
