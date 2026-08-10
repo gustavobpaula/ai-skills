@@ -1,0 +1,4 @@
+interface:
+  display_name: "Accessibility Review"
+  short_description: "Review frontend accessibility barriers"
+  default_prompt: "Use $a11y-review to review the selected frontend changes for accessibility barriers and report evidence-based findings."
