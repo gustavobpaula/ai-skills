@@ -31,7 +31,7 @@ Add `scripts/`, `references/`, or `assets/` inside a skill only when the workflo
 Install one or more skills by name:
 
 ```sh
-./scripts/install.sh spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review simplify a11y-review performance-review
+./scripts/install.sh spec arch-design feature-implementation requirements-review code-review delivery-check test-strategy arch-review simplify a11y-review debug performance-review
 ```
 
 The installer creates symlinks in `${HOME}/.agents/skills` by default. Override the destination for an isolated environment or test:
