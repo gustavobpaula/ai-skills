@@ -1,0 +1,4 @@
+interface:
+  display_name: "Performance Review"
+  short_description: "Review frontend performance risks"
+  default_prompt: "Use $performance-review to review the selected frontend changes for evidence-backed performance risks and justified optimizations."
