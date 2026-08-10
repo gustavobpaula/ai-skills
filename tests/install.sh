@@ -10,6 +10,7 @@ expected_arch_source=$(CDPATH= cd -P "$repo_root/skills/arch-design" && pwd)
 expected_feature_source=$(CDPATH= cd -P "$repo_root/skills/feature-implementation" && pwd)
 expected_requirements_source=$(CDPATH= cd -P "$repo_root/skills/requirements-review" && pwd)
 expected_code_review_source=$(CDPATH= cd -P "$repo_root/skills/code-review" && pwd)
+expected_delivery_check_source=$(CDPATH= cd -P "$repo_root/skills/delivery-check" && pwd)
 test_root=$(mktemp -d "${TMPDIR:-/tmp}/ai-skills-test.XXXXXX")
 
 cleanup() {
@@ -32,7 +33,7 @@ sh -n "$installer"
 bash -n "$installer"
 
 target_dir="$test_root/target dir"
-AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review >/dev/null
+AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check >/dev/null
 [ -L "$target_dir/spec" ] || fail 'installation did not create a symlink'
 [ "$(readlink "$target_dir/spec")" = "$expected_spec_source" ] || fail 'spec symlink is not absolute or points to the wrong source'
 [ -L "$target_dir/arch-design" ] || fail 'installation did not create the arch-design symlink'
@@ -43,21 +44,24 @@ AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-impleme
 [ "$(readlink "$target_dir/requirements-review")" = "$expected_requirements_source" ] || fail 'requirements-review symlink is not absolute or points to the wrong source'
 [ -L "$target_dir/code-review" ] || fail 'installation did not create the code-review symlink'
 [ "$(readlink "$target_dir/code-review")" = "$expected_code_review_source" ] || fail 'code-review symlink is not absolute or points to the wrong source'
+[ -L "$target_dir/delivery-check" ] || fail 'installation did not create the delivery-check symlink'
+[ "$(readlink "$target_dir/delivery-check")" = "$expected_delivery_check_source" ] || fail 'delivery-check symlink is not absolute or points to the wrong source'
 
-AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review >/dev/null
-AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review code-review >/dev/null
+AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check >/dev/null
+AI_SKILLS_TARGET_DIR="$target_dir" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check delivery-check >/dev/null
 
 expect_failure env AI_SKILLS_TARGET_DIR="$test_root/no-args" "$installer"
 expect_failure env AI_SKILLS_TARGET_DIR="$test_root/unknown" "$installer" missing-skill
 expect_failure env AI_SKILLS_TARGET_DIR="$test_root/invalid" "$installer" ../spec
 
 partial_target="$test_root/partial"
-expect_failure env AI_SKILLS_TARGET_DIR="$partial_target" "$installer" spec arch-design feature-implementation requirements-review code-review missing-skill
+expect_failure env AI_SKILLS_TARGET_DIR="$partial_target" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check missing-skill
 [ ! -e "$partial_target/spec" ] || fail 'validation failure caused a partial installation'
 [ ! -e "$partial_target/arch-design" ] || fail 'validation failure caused a partial arch-design installation'
 [ ! -e "$partial_target/feature-implementation" ] || fail 'validation failure caused a partial feature-implementation installation'
 [ ! -e "$partial_target/requirements-review" ] || fail 'validation failure caused a partial requirements-review installation'
 [ ! -e "$partial_target/code-review" ] || fail 'validation failure caused a partial code-review installation'
+[ ! -e "$partial_target/delivery-check" ] || fail 'validation failure caused a partial delivery-check installation'
 
 conflict_target="$test_root/conflict"
 mkdir -p "$conflict_target/spec"
@@ -67,11 +71,12 @@ expect_failure env AI_SKILLS_TARGET_DIR="$conflict_target" "$installer" spec
 
 batch_conflict_target="$test_root/batch-conflict"
 mkdir -p "$batch_conflict_target/arch-design"
-expect_failure env AI_SKILLS_TARGET_DIR="$batch_conflict_target" "$installer" spec arch-design feature-implementation requirements-review code-review
+expect_failure env AI_SKILLS_TARGET_DIR="$batch_conflict_target" "$installer" spec arch-design feature-implementation requirements-review code-review delivery-check
 [ ! -e "$batch_conflict_target/spec" ] || fail 'batch conflict caused a partial spec installation'
 [ ! -e "$batch_conflict_target/feature-implementation" ] || fail 'batch conflict caused a partial feature-implementation installation'
 [ ! -e "$batch_conflict_target/requirements-review" ] || fail 'batch conflict caused a partial requirements-review installation'
 [ ! -e "$batch_conflict_target/code-review" ] || fail 'batch conflict caused a partial code-review installation'
+[ ! -e "$batch_conflict_target/delivery-check" ] || fail 'batch conflict caused a partial delivery-check installation'
 [ -d "$batch_conflict_target/arch-design" ] || fail 'batch conflict directory was changed'
 [ ! -L "$batch_conflict_target/arch-design" ] || fail 'batch conflict directory was replaced by a symlink'
 

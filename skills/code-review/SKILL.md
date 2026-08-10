@@ -20,6 +20,7 @@ Review the selected implementation surface, execute the project's available qual
 ## 2. Inspect the implementation in context
 
 - Inspect the complete selected diff and trace affected flows through entry points, state, domain logic, integrations, persistence, and error handling as applicable.
+- Resolve affected imports, modules, generated contracts, and referenced assets, including side-effect-only imports that the configured compiler may not validate. Treat missing or mismatched dependencies as static evidence even when project checks pass.
 - Read nearby tests and analogous implementation to understand established contracts and conventions.
 - Use approved specifications and architecture documents as correctness context when available, but do not produce requirements coverage or architectural-conformance audits.
 - Review for functional defects, regressions, type errors, dead or unreachable paths, inadequate error handling, broken contracts, failing quality gates, and clear accidental complexity.
@@ -41,6 +42,7 @@ Review the selected implementation surface, execute the project's available qual
   - `NOT AVAILABLE`: the project exposes no applicable command or required local tooling is absent.
   - `NOT RUN`: the command was intentionally skipped because of safety, time, or an unresolved prerequisite; state the reason.
 - When a required project check fails, report the failure in `Automated Checks`. Create a finding only when evidence connects the failure to the target or the failed gate itself blocks delivery; do not invent a root cause.
+- Treat successful automated checks as supporting evidence, not as a substitute for inspecting the selected implementation and its affected contracts.
 
 ## 4. Classify actionable findings
 

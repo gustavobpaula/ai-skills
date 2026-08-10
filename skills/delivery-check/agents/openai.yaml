@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delivery Check"
+  short_description: "Prioritize remaining work under time pressure"
+  default_prompt: "Use $delivery-check to prioritize the remaining work against the approved scope and time left."
