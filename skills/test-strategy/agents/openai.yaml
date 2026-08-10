@@ -1,0 +1,4 @@
+interface:
+  display_name: "Test Strategy"
+  short_description: "Prioritize high-value tests by risk"
+  default_prompt: "Use $test-strategy to prioritize the highest-value tests for this change and its critical flows."
