@@ -10,8 +10,11 @@ Produce a short risk-based strategy before writing tests. Prefer the cheapest st
 ## 1. Resolve the test target
 
 - Read the engineer's request, project instructions, relevant constraints, and timebox when supplied.
-- Prefer selected requirements, acceptance criteria, a feature specification, a bug or regression description, a diff, or another explicitly bounded behavior.
-- Read `docs/SPEC.md` and linked feature specifications when they define the selected product behavior. Treat approved requirements as authoritative and code or existing tests as implementation evidence, never as sources of new product requirements.
+- Prefer an explicitly supplied feature-specification path, then a path with selected requirements or acceptance criteria, then the single linked feature specification that matches the request, then requirements written directly in `docs/SPEC.md`, then a bug or regression description, diff, or another explicitly bounded behavior.
+- Read `docs/SPEC.md` when it exists for applicable global rules and approved catalog links. Treat an explicitly selected specification as approved for this task even when unlinked; if its path does not exist, report the missing target and return to `$spec` without silently falling back.
+- Read the active feature specification and only linked or cross-referenced specifications needed to interpret the selected behavior. Do not scan other feature documents as test scope merely because they exist under `docs/specs/`.
+- Treat each requirement as specification path plus local `FR-*` or `AC-*` identifier. If bare identifiers occur in multiple linked documents, ask for the feature-specification path.
+- Treat approved requirements as authoritative and code or existing tests as implementation evidence, never as sources of new product requirements.
 - Proceed without `docs/SPEC.md` when the engineer explicitly selects a bug, change, contract, or regression surface whose expected behavior is sufficiently clear.
 - Ask and wait when different interpretations would change observable behavior or the expected assertion. Route unresolved product behavior to `$spec`; do not encode an assumption as a test expectation.
 - State the resolved target and whether the request authorizes strategy only or also authorizes test implementation.

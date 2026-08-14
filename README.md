@@ -6,6 +6,8 @@ A versioned collection of focused skills for AI-assisted software engineering. T
 
 Reusable workflows live in this repository. Project-specific requirements, architecture, and source code remain in each application repository.
 
+For continuous development, `docs/SPEC.md` may remain a compact standalone specification or become the canonical catalog and home for global rules. Approved feature specifications then live under `docs/specs/<feature>.md`; a feature is discovered automatically only through an explicit link from the root specification. Requirements and acceptance-criterion identifiers are local to each document, so consumers identify them by specification path plus identifier.
+
 ## Repository layout
 
 ```text
@@ -25,6 +27,16 @@ skills/<skill-name>/
 ```
 
 Add `scripts/`, `references/`, or `assets/` inside a skill only when the workflow genuinely needs them. Keep the YAML frontmatter limited to `name` and `description`, put triggering guidance in `description`, and write the body as concise imperative instructions.
+
+Application repositories may use either layout:
+
+```text
+docs/
+├── SPEC.md                 Global specification or standalone small-project spec
+├── specs/
+│   └── <feature>.md        Optional approved feature specifications linked by SPEC.md
+└── ARCHITECTURE.md         Single durable project architecture
+```
 
 ## Install for Codex
 

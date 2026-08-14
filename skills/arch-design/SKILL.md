@@ -1,20 +1,26 @@
 ---
 name: arch-design
-description: Design or update durable, proportional project architecture from docs/SPEC.md and existing project context, producing a concise, reviewable docs/ARCHITECTURE.md before implementation. Use when Codex needs to define the technology baseline, directory patterns and responsibilities, dependency rules, naming conventions, state and integration boundaries, feature-extension rules, testing seams, or architectural trade-offs. Do not use to prescribe feature file names, implement features, or retrospectively review architectural drift.
+description: Design or update durable, proportional project architecture from an approved global or feature specification and existing project context, producing a concise, reviewable docs/ARCHITECTURE.md only when the project needs a new or changed durable decision. Use when Codex needs to define or evolve the technology baseline, boundaries, ownership, integrations, extension rules, testing seams, or architectural trade-offs. Do not use to prescribe feature file names, implement features, or retrospectively review architectural drift.
 ---
 
 # Architecture Design
 
-Create or update `docs/ARCHITECTURE.md` as a durable set of project rules while keeping architectural decisions under the engineer's control.
+Create or update the single global `docs/ARCHITECTURE.md` as a durable set of project rules while keeping architectural decisions under the engineer's control. Do not rewrite it for each feature when its current rules already support the active target.
 
-## 1. Establish the source of truth
+## 1. Resolve the active specification
 
-- Read `docs/SPEC.md`, the timebox, technical constraints, and relevant project instructions.
-- Require `docs/SPEC.md` by default. If it is missing, ask the engineer to create it with `$spec` before continuing.
+- Read the timebox, technical constraints, relevant project instructions, and `docs/SPEC.md` when it exists.
+- Prefer a specification path explicitly supplied by the engineer, then a path with selected identifiers, then the single linked feature specification that matches the request, then requirements written directly in `docs/SPEC.md`.
+- Treat an explicitly selected specification as approved for this task even when it is not linked from `docs/SPEC.md`. If its path does not exist, report the missing target and return to `$spec`; do not silently fall back to the root document.
+- Use links from `docs/SPEC.md` as the approved catalog for automatic discovery. Ignore unlinked specifications unless the engineer selects them explicitly.
+- Ask the engineer to choose when multiple linked feature specifications remain plausible. Do not treat the whole catalog as the active architecture target merely because its entries are approved.
+- Read global requirements and constraints from `docs/SPEC.md`, the active feature specification, and only cross-referenced specifications needed to interpret its drivers.
+- When no feature specification is selected, use requirements written directly in `docs/SPEC.md`. If neither a usable root specification nor an explicit approved target exists, ask the engineer to create one with `$spec`.
 - Proceed from equivalent requirements supplied in the conversation only when the engineer explicitly authorizes bypassing the file.
 - Read `docs/ARCHITECTURE.md` when it exists.
 - Inspect the repository for the language, frameworks, runtime, build and test tooling, directory organization, dependency direction, state ownership, integrations, and naming conventions.
 - Treat the specification as authoritative for behavior and scope. Treat the codebase as evidence of current technical context, not as a source of new product requirements.
+- Identify every requirement as its specification path plus local `FR-*` or `AC-*` identifier. A bare identifier is insufficient when it appears in more than one document.
 
 ## 2. Resolve blocking uncertainty
 
@@ -28,6 +34,9 @@ Create or update `docs/ARCHITECTURE.md` as a durable set of project rules while 
 ## 3. Define durable architecture
 
 - Describe rules that should remain valid as features are added. Keep feature-specific implementation plans outside `docs/ARCHITECTURE.md`.
+- Before drafting a change to an existing architecture, determine whether the active feature requires a new or revised durable boundary, ownership rule, integration, persistence decision, technical baseline, or difficult-to-reverse choice.
+- When the existing architecture already supports the target, report the applicable rules and why they are sufficient, state that no architecture change is required, and leave `docs/ARCHITECTURE.md` untouched.
+- When a durable delta is required, update only the affected architectural concerns while presenting the complete resulting document for approval.
 - Start with the smallest coherent architecture that satisfies current requirements and confirmed constraints.
 - Preserve existing technologies, boundaries, and conventions when they remain adequate. For an existing project, describe only the necessary architectural delta.
 - Ground plausible evolution in a supplied roadmap, confirmed expectation, or expensive-to-reverse constraint. Treat purely hypothetical growth as deferred.
@@ -91,7 +100,7 @@ Use this structure:
 - Make dependency direction and state ownership explicit when more than one boundary participates.
 - Use a diagram only when it makes runtime or dependency relationships materially easier to understand.
 - Assign stable identifiers such as `AD-1` to major decisions. State the decision, current drivers, and meaningful consequences or trade-offs.
-- Reference relevant `FR-*` or `AC-*` identifiers when they drive a decision; cite unnumbered constraints by name.
+- Reference relevant specification paths with their local `FR-*` or `AC-*` identifiers when they drive a decision; cite unnumbered constraints by path and name.
 - Assign `DD-*` identifiers to intentionally deferred decisions and state the concrete trigger for reconsidering each one. State `None` when no decision is deferred.
 - Match the language of the specification unless the project establishes another documentation language.
 - Keep a small challenge architecture near or below 900 words and reviewable in about four minutes. Prefer durable clarity over a rigid limit.
@@ -102,7 +111,7 @@ Use this structure:
 - Preserve existing `AD-*` and `DD-*` identifiers and their wording outside the requested change. Do not retrofit accepted items to the current format; add necessary context elsewhere.
 - Revise an accepted decision only when the approved change requires it. Identify the conflict and proposed replacement explicitly before requesting approval.
 - Append new identifiers after the highest existing identifier and leave gaps when an item is removed.
-- Surface conflicts between the specification, requested change, current implementation, and documented architecture.
+- Surface conflicts between the active specification, applicable global rules, requested change, current implementation, and documented architecture.
 - Distinguish a required architectural change from implementation drift; leave retrospective drift review to `arch-review`.
 - Present the complete resulting document, not an isolated patch, for review.
 
@@ -115,4 +124,4 @@ Use this structure:
 - Treat an explicit instruction to write without preview as approval to bypass the default preview, subject to host permissions and working mode.
 - If writing is not permitted, return the approved Markdown and explain the constraint.
 
-Do not implement application code, change dependencies or configuration, edit `docs/SPEC.md`, enumerate planned feature files, or expand product scope. If the request also asks for implementation, finish the architecture workflow first and keep later work separate.
+Do not implement application code, change dependencies or configuration, edit any specification, create per-feature architecture documents, enumerate planned feature files, or expand product scope. If the request also asks for implementation, finish any required architecture delta first and keep later work separate.

@@ -15,6 +15,8 @@ spec
     ↓
 docs/SPEC.md
     ↓
+docs/specs/<feature>.md (when modular)
+    ↓
 arch-design
     ↓
 docs/ARCHITECTURE.md
@@ -125,6 +127,8 @@ Project-specific artifacts belong to the application repository:
 project/
 ├── docs/
 │   ├── SPEC.md
+│   ├── specs/
+│   │   └── <feature>.md
 │   └── ARCHITECTURE.md
 ├── src/
 └── ...
@@ -216,7 +220,7 @@ These skills should be implemented and tested before expanding the toolbox.
 
 ### Purpose
 
-Convert a challenge description or feature request into a concise `docs/SPEC.md` that becomes the source of truth for implementation.
+Convert a challenge description or feature request into the smallest appropriate approved specification. Keep `docs/SPEC.md` as a standalone small-project specification or the canonical global specification and index; place modular feature specifications under `docs/specs/` as the product grows.
 
 ### Inputs
 
@@ -227,7 +231,7 @@ Convert a challenge description or feature request into a concise `docs/SPEC.md`
 
 ### Output
 
-`docs/SPEC.md`
+`docs/SPEC.md` and, when appropriate, `docs/specs/<feature-slug>.md`
 
 Suggested structure:
 
@@ -252,6 +256,9 @@ Suggested structure:
 ### Rules
 
 - Do not invent requirements.
+- Treat links from `docs/SPEC.md` as the approved catalog for automatic discovery; allow an explicitly selected unlinked specification as the approved target for that task.
+- Allocate `FR-*` and `AC-*` locally within each document and qualify cross-document references by specification path.
+- Preserve small standalone specifications; when a legacy root contains several separable features, offer migration instead of splitting it automatically.
 - Clearly distinguish explicit requirements from assumptions.
 - Surface ambiguities that materially affect implementation.
 - Keep the document concise.
@@ -264,7 +271,7 @@ The generated specification should normally take less than two minutes for an en
 
 ### Definition of Done
 
-Given a small live-coding challenge, the skill produces a concise specification that accurately captures the required behavior without expanding the scope.
+Given a small live-coding challenge, the skill produces a concise standalone specification. As the product grows, it can add an approved feature document and catalog link without renumbering or rewriting unrelated legacy requirements.
 
 ---
 
@@ -272,11 +279,12 @@ Given a small live-coding challenge, the skill produces a concise specification 
 
 ### Purpose
 
-Analyze `SPEC.md` and project context, help define an architecture proportional to the problem, and create/update `docs/ARCHITECTURE.md`.
+Analyze the active global or feature specification and project context, then create or update the single durable `docs/ARCHITECTURE.md` only when a durable architectural decision changes.
 
 ### Inputs
 
-- `docs/SPEC.md`
+- The explicitly selected feature specification, or `docs/SPEC.md` as fallback
+- Applicable global rules from `docs/SPEC.md`
 - Existing codebase, if present
 - Technical constraints
 - Time constraints
@@ -326,6 +334,9 @@ For every proposed abstraction, answer:
 
 ### Rules
 
+- Resolve the active specification by explicit path, path plus identifiers, a single matching catalog entry, then root requirements.
+- Read only the active feature, applicable global rules, and necessary cross-references rather than treating the complete catalog as the current architecture target.
+- When the existing architecture already supports the feature, report compatibility and leave `docs/ARCHITECTURE.md` unchanged.
 - Do not apply a fixed architecture template blindly.
 - Prefer the simplest architecture that preserves clear boundaries, testability, and maintainability.
 - Do not design for purely hypothetical scale.
@@ -335,7 +346,7 @@ For every proposed abstraction, answer:
 
 ### Definition of Done
 
-The skill produces meaningfully different recommendations for problems with different complexity levels and can explain why each major abstraction exists.
+The skill produces meaningfully different recommendations for problems with different complexity levels, leaves an adequate existing architecture unchanged, and can explain why each new major decision exists.
 
 ---
 
@@ -370,6 +381,8 @@ Validate
 ### Rules
 
 - Read `SPEC.md` and `ARCHITECTURE.md` before changing code when they exist.
+- Resolve the active specification by explicit path, path plus identifiers, a single matching linked feature, then root requirements; ask when more than one target remains plausible.
+- Treat a requirement as specification path plus local identifier, because identifiers may repeat across feature documents.
 - Implement only the selected requirements and acceptance criteria or an equivalently bounded approved feature.
 - Treat the broader application specification and unselected feature specifications as context, not as an automatic work queue.
 - When specifications are modularized as the application grows, read the active feature specification and only the global or related documents needed to interpret it.
@@ -404,7 +417,7 @@ The engineer decides whether the architecture should change.
 
 ### Definition of Done
 
-The skill can implement a selected feature as a coherent vertical increment without treating the full specification as authorized work, ignoring requirements, or silently diverging from documented architecture.
+The skill can implement a path-qualified selected feature as a coherent vertical increment without confusing local identifiers, treating the full catalog as authorized work, ignoring requirements, or silently diverging from documented architecture.
 
 ---
 
@@ -418,7 +431,7 @@ Compare implementation directly against the correct approved specification and a
 
 This skill reviews requirements only. It should not become an architecture, performance, or style review.
 
-For a modular specification set, treat `docs/SPEC.md` as the canonical global specification or index and load every feature specification it explicitly links. Use the complete approved set as a product catalog, but classify coverage only for the active specification, `FR-*`, or `AC-*` target. Do not report future or unselected requirements as missing.
+For a modular specification set, treat `docs/SPEC.md` as the canonical global specification or index and load every feature specification it explicitly links. Use the complete approved set as a product catalog, but classify coverage only for the active specification and its path-qualified local `FR-*` or `AC-*` target. Do not report future or unselected requirements as missing.
 
 Resolve the active target from an explicitly supplied specification path or identifiers when available. Otherwise, infer it from the request and affected behavior; ask the engineer to choose when multiple specifications remain plausible.
 

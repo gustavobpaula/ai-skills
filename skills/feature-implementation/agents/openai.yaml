@@ -1,4 +1,4 @@
 interface:
   display_name: "Feature Implementation"
-  short_description: "Implement scoped features from approved specs"
-  default_prompt: "Use $feature-implementation to implement the selected requirements as a complete vertical increment."
+  short_description: "Implement one approved feature spec"
+  default_prompt: "Use $feature-implementation to implement the explicitly selected feature specification as a complete vertical increment."

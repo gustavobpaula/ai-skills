@@ -1,4 +1,4 @@
 interface:
   display_name: "Architecture Design"
-  short_description: "Define durable project architecture"
-  default_prompt: "Use $arch-design to define durable project architecture from docs/SPEC.md and the current project conventions."
+  short_description: "Evolve durable project architecture"
+  default_prompt: "Use $arch-design to assess the active specification and update docs/ARCHITECTURE.md only when a durable decision changes."

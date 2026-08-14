@@ -12,7 +12,10 @@ Compare the selected implementation surface with the approved architecture. Repo
 - Read the engineer's request, project instructions, relevant constraints, and `docs/ARCHITECTURE.md`.
 - Require `docs/ARCHITECTURE.md`. If it is missing, stop before inspecting implementation details or classifying findings and ask the engineer to establish an approved baseline with `$arch-design`.
 - Treat the architecture document as authoritative for durable technical decisions, including `AD-*` decisions, `DD-*` triggers, technology roles, directory responsibilities, dependency rules, state ownership, integration boundaries, domain placement, naming, feature-extension rules, and testing seams.
-- Read `docs/SPEC.md` and only the linked or explicitly selected specifications needed to understand the current drivers of an architectural rule or implementation change.
+- Read `docs/SPEC.md` when it exists for applicable global drivers and approved catalog links. Prefer a specification path explicitly supplied for the feature under review, then a path with identifiers, then the single linked specification that matches the reviewed behavior, then requirements written directly in `docs/SPEC.md`.
+- Treat an explicitly selected feature specification as approved review context even when it is unlinked. If its path does not exist, report the missing target and route it to `$spec`; do not silently substitute the root specification.
+- Read only the active feature specification and cross-referenced documents needed to understand the current drivers. Ignore other unlinked specifications and do not treat the approved catalog as a repository-wide review target.
+- Identify every requirement driver by specification path plus local `FR-*` or `AC-*` identifier. Ask for a path when bare identifiers occur in more than one linked document.
 - Treat approved requirements as evidence of current product drivers, not as permission to rewrite architecture during the review. Treat code and tests as implementation evidence, never as the source of the architectural baseline.
 - Surface contradictory or insufficient architectural rules as documentation evidence. Do not resolve them by inferring intent from the implementation.
 

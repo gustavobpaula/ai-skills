@@ -1,4 +1,4 @@
 interface:
   display_name: "Specification"
-  short_description: "Turn requirements into a concise SPEC"
-  default_prompt: "Use $spec to turn these requirements into a concise, reviewable docs/SPEC.md."
+  short_description: "Manage global and modular feature specs"
+  default_prompt: "Use $spec to create or update the appropriate global or feature specification."

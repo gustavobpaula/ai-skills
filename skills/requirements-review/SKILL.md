@@ -9,25 +9,28 @@ Compare the current implementation with the approved active delivery target. Rea
 
 ## 1. Establish the approved specification catalog
 
-- Read project instructions, the engineer's request, relevant constraints, and `docs/SPEC.md`.
-- Require `docs/SPEC.md` by default. If it is missing, ask the engineer to create it with `$spec` before continuing. Proceed from equivalent approved requirements supplied in the conversation only when the engineer explicitly authorizes bypassing the file.
+- Read project instructions, the engineer's request, relevant constraints, and `docs/SPEC.md` when it exists.
+- Prefer a specification path explicitly selected by the engineer. Treat it as an approved review target even when it is not linked from `docs/SPEC.md`; if the path does not exist, report the missing target and return to `$spec` without silently falling back.
+- When no path is selected, require `docs/SPEC.md` by default. If it is missing, ask the engineer to create it with `$spec` before continuing. Proceed from equivalent approved requirements supplied in the conversation only when the engineer explicitly authorizes bypassing files.
 - Treat `docs/SPEC.md` as the canonical global specification or index. Load every feature specification it explicitly links as part of the approved catalog.
-- Treat a specification path supplied by the engineer as approved only when the engineer identifies it as an approved review target. Do not infer approval from an unlinked file merely because it exists under `docs/`.
+- Add an explicitly selected unlinked specification to the approved catalog for this review only. Do not infer approval from any other unlinked file merely because it exists under `docs/`.
 - Follow explicit cross-references needed to interpret a requirement, but do not scan unrelated documentation as product scope.
 - Treat approved specifications as the only source of required behavior. Treat code, tests, configuration, runtime output, and architecture documents as implementation evidence or technical context, never as sources of new requirements.
 
 ## 2. Resolve the active review target
 
-- Prefer an explicitly supplied specification path or set of `FR-*` and `AC-*` identifiers.
+- Prefer an explicitly supplied specification path, then a path with selected `FR-*` and `AC-*` identifiers, then the single linked specification that matches the request, then requirements written directly in `docs/SPEC.md`.
+- Treat every requirement identity as its specification path plus local identifier. Allow different documents to reuse `FR-1` or `AC-1`; never merge their coverage units.
+- When the engineer supplies bare identifiers, resolve them across the root and linked catalog. Ask for a path when the identifiers occur in more than one document.
 - Otherwise, infer the target from the engineer's request, the root specification's links, and the behavior affected by the current changes or requested delivery.
 - When exactly one catalog entry matches, state the inferred target and continue. When multiple entries remain plausible, present the candidates and ask the engineer to select the target before classifying coverage.
 - When no approved catalog entry covers the requested behavior, return the gap to `$spec`; do not create a requirement from the implementation.
-- Allow the active target to span more than one specification or identifier set when the engineer selects them together.
+- Allow the active target to span more than one specification or identifier set when the engineer selects them together, and keep each local identifier qualified by its source path.
 - Use each active `AC-*` as the primary review unit. Review an `FR-*` directly only when it has no acceptance criteria. Review mandatory constraints separately when they apply to the target.
 - Include global requirements or constraints only when they explicitly reference the active feature or state that they apply universally.
 - Exclude assumptions, deferred work, open questions, and out-of-scope items from mandatory coverage.
 - Keep unselected and future feature specifications in the catalog for scope interpretation. Do not classify their unimplemented requirements as `MISSING`.
-- State the resolved target, its source files, identifiers, applicable global rules, and exclusions before reporting findings.
+- State the resolved target, each source path with its local identifiers, applicable global rules, and exclusions before reporting findings.
 
 ## 3. Collect requirement evidence
 

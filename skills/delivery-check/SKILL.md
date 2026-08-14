@@ -12,13 +12,16 @@ Produce a short, realistic checkpoint that keeps the engineer in control of the 
 - Read the engineer's request, project instructions, delivery constraints, and supplied review or validation results.
 - Require an explicit duration or deadline. If neither is available, ask for the time remaining and wait before producing the prioritization.
 - Resolve a deadline to usable remaining time. Ask only when a missing timezone or other ambiguity materially changes that time.
-- Read `docs/SPEC.md` by default. If it is missing, require equivalent approved scope supplied or explicitly authorized by the engineer; do not derive product requirements from the implementation.
+- Read `docs/SPEC.md` when it exists. Treat its explicit feature links as the approved catalog for automatic discovery and ignore unlinked specifications unless the engineer selects one explicitly.
+- Treat an explicitly selected specification as approved for this checkpoint even when it is unlinked. If its path does not exist, report the missing target and return to `$spec`; do not silently fall back to `docs/SPEC.md`.
+- When no specification is selected and `docs/SPEC.md` is missing, require equivalent approved scope supplied or explicitly authorized by the engineer; do not derive product requirements from the implementation.
 - Read `docs/ARCHITECTURE.md` only when its decisions affect feasibility, dependency order, or the cost of remaining work. Do not perform an architecture review.
 
 ## 2. Resolve the active delivery target
 
-- Prefer an explicitly supplied specification path, `FR-*` or `AC-*` identifiers, milestone, or bounded deliverable.
-- For modular specifications, use the complete approved set as context but prioritize only the active target and applicable global constraints.
+- Prefer an explicitly supplied specification path, then a path with `FR-*` or `AC-*` identifiers, then the single linked feature specification that matches the request, then requirements written directly in `docs/SPEC.md`, then another explicitly bounded approved deliverable.
+- Treat requirement identity as specification path plus local identifier. When bare identifiers occur in more than one catalog document, ask for the path rather than merging the targets.
+- For modular specifications, read the active feature and applicable global constraints. Consult another linked feature only when needed to classify observed work outside the target; do not load the complete catalog as delivery scope.
 - When no narrower target is supplied, treat the mandatory requirements and acceptance criteria in the primary specification as the delivery target.
 - Ask the engineer to choose when multiple plausible active targets would produce materially different priorities.
 - Treat optional requirements, assumptions, open questions, deferred work, and out-of-scope items as non-mandatory unless the engineer explicitly promotes them.

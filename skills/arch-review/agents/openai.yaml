@@ -1,4 +1,4 @@
 interface:
   display_name: "Architecture Review"
-  short_description: "Detect architectural drift and excess"
-  default_prompt: "Use $arch-review to compare the current changes with docs/ARCHITECTURE.md and report architectural drift or overengineering."
+  short_description: "Review architecture for one target"
+  default_prompt: "Use $arch-review to compare the selected feature implementation with docs/ARCHITECTURE.md and its approved specification drivers."
