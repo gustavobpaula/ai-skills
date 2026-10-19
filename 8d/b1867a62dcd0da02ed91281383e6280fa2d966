@@ -1,0 +1,25 @@
+scripts/install-claude.sh
+  s_b15ed45fafe4c9::t_07d5aa1f573d3f 1-13
+tests/install.sh
+  s_b15ed45fafe4c9::t_c5f1f5ccfed8a1 119-137
+README.md
+  s_b15ed45fafe4c9::t_428ce8f901cdd1 14-19
+  s_b15ed45fafe4c9::t_28bf874aeb3749 60-77
+  s_b15ed45fafe4c9::t_6dc0fed64dfcbe 32-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8db1867a62dcd0da02ed91281383e6280fa2d966",
+  "prompts": {},
+  "sessions": {
+    "s_b15ed45fafe4c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "72edc97d-2c53-4602-862f-c32fa3e4526d",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "Gustavo Bento de Paula <gustavob.paula@gmail.com>"
+    }
+  }
+}
