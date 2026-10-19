@@ -2,7 +2,7 @@
 
 ## Prompt
 
-Use `$delivery-check` with 15 minutes remaining for this challenge.
+Use `$delivery-check` with 15 minutes remaining before today's release cut.
 
 ## Context
 

@@ -14,7 +14,7 @@ Use `$delivery-check`; there are 10 minutes left.
 ## Expected behavior
 
 - Keep both acceptance criteria visible in `MUST` and mark delivery `AT RISK`.
-- Identify the first criterion as the smallest coherent deliverable and request an explicit scope decision.
+- Identify the smallest coherent deliverable that credibly fits, stating when nothing beyond the current state fits, and request an explicit scope or date decision. The first criterion is the smallest addition to offer.
 - Preserve packaging or handoff time in the estimate.
 
 ## Must not

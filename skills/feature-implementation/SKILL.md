@@ -1,6 +1,6 @@
 ---
 name: feature-implementation
-description: Implement a scoped feature or behavior change as the smallest coherent vertical increment from approved specifications and documented architecture. Use when Codex needs to modify application code for selected FR/AC identifiers or an explicitly bounded approved feature, including necessary tests and validation. Do not use to invent or approve requirements, redesign architecture, perform broad refactors, or conduct a general review.
+description: Implement a scoped feature or behavior change as the smallest coherent vertical increment from approved specifications and documented architecture. Use when Codex needs to modify application code for selected FR/AC identifiers or an explicitly bounded approved feature, including necessary tests and validation, in projects without a task-driven implementation workflow, or for a targeted correction in a GitHub Spec Kit project. Do not use to invent or approve requirements, redesign architecture, perform broad refactors, conduct a general review, or implement a Spec Kit feature whose task list is still in progress unless the engineer explicitly asks.
 ---
 
 # Feature Implementation
@@ -14,6 +14,8 @@ Implement only the active feature target. Use the broader product specification 
 - Treat an explicitly selected specification as approved for this task even when it is not linked from `docs/SPEC.md`. If its path does not exist, report the missing target and return to `$spec`; do not silently fall back to the root document.
 - Read `docs/SPEC.md` when it exists for applicable global requirements and catalog links. Treat its explicit links as the approved catalog for automatic discovery; do not infer approval from unlinked files under `docs/specs/`.
 - When multiple linked specifications plausibly match and no path disambiguates them, ask the engineer to select one. When no feature specification is selected, use requirements written directly in `docs/SPEC.md`.
+- In a GitHub Spec Kit project (`.specify/` exists), feature specifications live at `specs/<feature>/spec.md` and have no link catalog. Take the active feature from an explicit selection, then the active feature Spec Kit records (`SPECIFY_FEATURE_DIRECTORY`, then `feature_directory` in `.specify/feature.json`), or the feature directory matching the current Git branch name; ask when none identifies exactly one feature.
+- In a Spec Kit project, read the constitution (`.specify/memory/constitution.md`) unless it is still an unfilled template, and follow the principles that govern implementation, such as test discipline. Read the feature's `plan.md` as technical intent subordinate to `docs/ARCHITECTURE.md`; when the plan contradicts it, use the architectural conflict gate.
 - If neither a usable root specification nor an explicitly selected approved specification exists, ask the engineer to create one with `$spec`. Proceed from equivalent approved requirements supplied in the conversation only when the engineer explicitly authorizes bypassing files.
 - Read `docs/ARCHITECTURE.md` when it exists. If it is absent, preserve the existing codebase's boundaries and conventions; return to `$arch-design` when the feature requires a new durable architectural decision.
 - In a modular specification set, load the active feature document, applicable global rules, and only explicitly cross-referenced documents needed to interpret it. Do not load every linked feature as an implementation queue.
@@ -21,7 +23,9 @@ Implement only the active feature target. Use the broader product specification 
 
 ## 2. Define the active implementation target
 
-- Identify the active specification path with the selected local `FR-*` requirements and `AC-*` acceptance criteria when identifiers exist. The requirement identity is the path plus its local identifier.
+- Identify the active specification path with the selected local `FR-*` requirements and `AC-*` acceptance criteria when identifiers exist. The requirement identity is the path plus its local identifier. In a Spec Kit specification, use `FR-###`, `SC-###`, and acceptance scenarios as `US<n>/AC<n>` (user story number, then the scenario's position in that story).
+- When the active Spec Kit feature has a `tasks.md` with unchecked tasks, the Spec Kit implementation workflow owns that feature. State this and ask before implementing, unless the engineer explicitly asked this skill to implement selected units, such as a correction reported by a review.
+- Treat a unit that still carries a `[NEEDS CLARIFICATION]` marker as an unresolved product decision.
 - When the engineer supplies only identifiers, resolve them against the root and linked catalog. Continue only if they identify one document uniquely; ask for the specification path when the same identifier occurs in multiple documents.
 - Otherwise, derive a bounded target from an explicitly approved feature request and state the covered behavior in observable terms.
 - Treat the rest of the root specification, unselected requirements, and other feature specifications as context. Do not implement them unless the engineer explicitly selects them.
@@ -40,7 +44,7 @@ Implement only the active feature target. Use the broader product specification 
 
 ## 4. Resolve decision gates before editing
 
-- Stop when the feature requires an unresolved product decision and route it to `$spec`.
+- Stop when the feature requires an unresolved product decision and route it to `$spec`, or to `speckit-clarify` in a Spec Kit project.
 - Stop when the feature conflicts with a documented architectural decision. Report exactly:
 
 ```text
@@ -83,7 +87,7 @@ Continue directly after this explanation unless a decision gate requires the eng
 - Add or update proportional tests for selected behavior, deterministic rules, relevant failure paths, and changed integration seams according to project conventions.
 - Do not introduce a test framework solely for this increment unless the approved target or architecture requires it and the engineer accepts the baseline change.
 - Avoid speculative infrastructure, broad cleanup, unrelated dependency upgrades, and refactors that do not enable the target.
-- Do not edit `docs/SPEC.md` or `docs/ARCHITECTURE.md` as an implementation shortcut. Report a discovered documentation conflict through the appropriate decision gate.
+- Do not edit `docs/SPEC.md`, `docs/ARCHITECTURE.md`, or Spec Kit `spec.md`, `plan.md`, `tasks.md`, and constitution files as an implementation shortcut. Report a discovered documentation conflict through the appropriate decision gate.
 
 ## 7. Validate the result
 
@@ -101,6 +105,7 @@ Report concisely:
 - what changed and which active requirements it covers;
 - which tests and validation commands ran and their results;
 - any manual verification performed;
-- remaining gaps, unverified criteria, or follow-up decisions.
+- remaining gaps, unverified criteria, or follow-up decisions;
+- in a Spec Kit project, which tasks in `tasks.md` the change appears to complete, so the engineer can update them.
 
 Do not turn the handoff into a general requirements, architecture, security, performance, or code review. Leave those independent gates to their dedicated skills.

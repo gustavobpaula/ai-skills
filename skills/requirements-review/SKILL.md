@@ -1,6 +1,6 @@
 ---
 name: requirements-review
-description: Review an implementation against the correct approved specification and active delivery target, producing an evidence-based, traceable coverage report. Use when Codex needs to validate selected FR/AC identifiers, a feature specification, or a complete delivery scope across a modular specification set before delivery. Classify implemented, partial, missing, incorrect, unrequested, and ambiguous behavior. Do not use for general code quality, architecture, security, performance review, or automatic fixes.
+description: Review an implementation against the correct approved specification and active delivery target, producing an evidence-based, traceable coverage report. Use when Codex needs to validate selected FR/AC identifiers, a feature specification, a GitHub Spec Kit feature's requirements and acceptance scenarios, or a complete delivery scope across a modular specification set before delivery. Classify implemented, partial, missing, incorrect, unrequested, and ambiguous behavior. Do not use for general code quality, architecture, security, performance review, or automatic fixes.
 ---
 
 # Requirements Review
@@ -14,8 +14,9 @@ Compare the current implementation with the approved active delivery target. Rea
 - When no path is selected, require `docs/SPEC.md` by default. If it is missing, ask the engineer to create it with `$spec` before continuing. Proceed from equivalent approved requirements supplied in the conversation only when the engineer explicitly authorizes bypassing files.
 - Treat `docs/SPEC.md` as the canonical global specification or index. Load every feature specification it explicitly links as part of the approved catalog.
 - Add an explicitly selected unlinked specification to the approved catalog for this review only. Do not infer approval from any other unlinked file merely because it exists under `docs/`.
+- In a GitHub Spec Kit project (`.specify/` exists), feature specifications live at `specs/<feature>/spec.md` and have no link catalog. Treat every `specs/*/spec.md` as the catalog for scope interpretation. Take the active target from an explicit selection, then the active feature Spec Kit records (`SPECIFY_FEATURE_DIRECTORY`, then `feature_directory` in `.specify/feature.json`), or the feature directory matching the current Git branch name.
 - Follow explicit cross-references needed to interpret a requirement, but do not scan unrelated documentation as product scope.
-- Treat approved specifications as the only source of required behavior. Treat code, tests, configuration, runtime output, and architecture documents as implementation evidence or technical context, never as sources of new requirements.
+- Treat approved specifications as the only source of required behavior. Treat code, tests, configuration, runtime output, architecture documents, the constitution, and Spec Kit `plan.md`, `tasks.md`, and checklists as implementation evidence or technical context, never as sources of new requirements. A checked task does not prove that its behavior works.
 
 ## 2. Resolve the active review target
 
@@ -27,6 +28,10 @@ Compare the current implementation with the approved active delivery target. Rea
 - When no approved catalog entry covers the requested behavior, return the gap to `$spec`; do not create a requirement from the implementation.
 - Allow the active target to span more than one specification or identifier set when the engineer selects them together, and keep each local identifier qualified by its source path.
 - Use each active `AC-*` as the primary review unit. Review an `FR-*` directly only when it has no acceptance criteria. Review mandatory constraints separately when they apply to the target.
+- For a Spec Kit specification, identify each acceptance scenario as `US<n>/AC<n>`: the user story number, then the scenario's position in that story. Use scenarios as primary review units. Because Spec Kit does not map requirements to scenarios, also review every `FR-###` as its own unit.
+- Treat every user story in a Spec Kit specification as mandatory regardless of its priority; priority orders the work but does not make a story optional.
+- Review an `SC-###` success criterion only when implementation evidence or an executed check can establish it. Record outcomes measurable only after release, such as adoption or satisfaction rates, under `Verification Limits` rather than as `MISSING`.
+- Treat Spec Kit edge cases phrased as open questions as context. Treat a unit that still carries a `[NEEDS CLARIFICATION]` marker as `AMBIGUOUS`.
 - Include global requirements or constraints only when they explicitly reference the active feature or state that they apply universally.
 - Exclude assumptions, deferred work, open questions, and out-of-scope items from mandatory coverage.
 - Keep unselected and future feature specifications in the catalog for scope interpretation. Do not classify their unimplemented requirements as `MISSING`.
@@ -87,5 +92,5 @@ Use this structure:
 - Keep the review read-only. Do not edit implementation, specifications, architecture, tests, configuration, or dependencies.
 - Do not recommend unrelated refactors or expand findings into architecture, style, maintainability, security, accessibility, or performance review.
 - Do not infer mandatory behavior from conventions, likely user expectations, test names, architecture choices, or common best practices.
-- Route specification ambiguity to `$spec`. Route missing, partial, or incorrect implementation to `$feature-implementation` only after the engineer explicitly requests a fix.
+- Route specification ambiguity to `$spec`, or to `speckit-clarify` in a Spec Kit project. Route missing, partial, or incorrect implementation to `$feature-implementation` or the project's implementation workflow only after the engineer explicitly requests a fix.
 - Report evidence and impact without designing the correction. Keep the engineer in control of scope and follow-up decisions.

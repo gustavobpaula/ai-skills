@@ -2,7 +2,7 @@
 
 ## Prompt
 
-Use `$spec` for a one-page product search. Load the provided local JSON file and initially show every product's name and price. As the user types, use a case-insensitive substring match to filter product names. Show `No products found` when the filter has no matches. This challenge has no backend.
+Use `$spec` for a one-page product search. Load the provided local JSON file and initially show every product's name and price. As the user types, use a case-insensitive substring match to filter product names. Show `No products found` when the filter has no matches. This product has no backend.
 
 ## Context
 
@@ -12,7 +12,7 @@ Use `$spec` for a one-page product search. Load the provided local JSON file and
 
 - Specify loading, initial display, name and price presentation, case-insensitive substring filtering, and the empty state with observable acceptance criteria.
 - Record the local JSON source and absence of a backend without turning them into speculative architecture.
-- Keep the result proportionate to a one-page challenge.
+- Keep the result proportionate to a one-page product.
 
 ## Must not
 

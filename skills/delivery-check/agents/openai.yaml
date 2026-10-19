@@ -1,4 +1,4 @@
 interface:
   display_name: "Delivery Check"
-  short_description: "Prioritize one delivery target in time"
-  default_prompt: "Use $delivery-check to prioritize remaining work for the selected specification and time limit."
+  short_description: "Prioritize delivery work within a horizon"
+  default_prompt: "Use $delivery-check to prioritize remaining work for the selected delivery scope and its deadline, release date, or available capacity."

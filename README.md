@@ -16,6 +16,7 @@ scripts/install.sh            Core installer (defaults to Codex's skills directo
 scripts/install-claude.sh     Claude Code installer (installs into ~/.claude/skills)
 tests/skills/                 Behavioral test scenarios
 tests/install.sh              Installer smoke tests
+tests/speckit-sandbox.sh      Spec Kit sandbox for behavioral scenarios
 docs/                         Repository planning documents
 ```
 
@@ -40,6 +41,12 @@ docs/
 │   └── <feature>.md        Optional approved feature specifications linked by SPEC.md
 └── ARCHITECTURE.md         Single durable project architecture
 ```
+
+## Using with GitHub Spec Kit
+
+The skills work alongside [GitHub Spec Kit](https://github.com/github/spec-kit). Spec Kit owns specification, planning, and task execution under `specs/<feature>/`; these skills act as quality and decision gates around it. Pass a Spec Kit feature path explicitly (for example `$requirements-review specs/003-chat/spec.md`), or let the skills resolve the active feature that Spec Kit records in `.specify/feature.json` (or the current branch, when the `git` extension creates one).
+
+Keep the layers distinct: `.specify/memory/constitution.md` holds principles and governance, `docs/ARCHITECTURE.md` holds the concrete durable structure maintained by `arch-design`, and each feature's `plan.md` applies that structure to one feature. `arch-review` checks delivered code, and the plan behind it, against `docs/ARCHITECTURE.md` and the constitution's structural principles. `requirements-review` remains the independent coverage gate over each acceptance scenario (`US<n>/AC<n>`) and `FR-###`, and `feature-implementation` handles targeted corrections outside an in-progress `tasks.md`. See section 11 of `docs/SKILLS_DEVELOPMENT_PLAN.md` for the full flow.
 
 ## Install for Codex
 
@@ -87,6 +94,8 @@ Run the local structural and installer checks:
 ./tests/install.sh
 ```
 
-Behavioral scenarios live under `tests/skills/<skill-name>/`. Run them in clean temporary projects with a fresh Codex session, compare behavior against each scenario's rubric, and keep project-specific artifacts outside this repository.
+Behavioral scenarios live under `tests/skills/<skill-name>/`. Run them in clean temporary projects with a fresh agent session, compare behavior against each scenario's rubric, and keep project-specific artifacts outside this repository.
+
+Scenarios named `spec-kit-*` need a Spec Kit project. Create one with `./tests/speckit-sandbox.sh <dir> [claude] [codex]` and follow `tests/SPEC_KIT_RUNBOOK.md`.
 
 Before accepting a skill change, also run the `quick_validate.py` supplied by Codex's `skill-creator` against the skill directory.

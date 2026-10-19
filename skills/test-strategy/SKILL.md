@@ -9,14 +9,16 @@ Produce a short risk-based strategy before writing tests. Prefer the cheapest st
 
 ## 1. Resolve the test target
 
-- Read the engineer's request, project instructions, relevant constraints, and timebox when supplied.
+- Read the engineer's request, project instructions, relevant constraints, and delivery horizon when supplied.
 - Prefer an explicitly supplied feature-specification path, then a path with selected requirements or acceptance criteria, then the single linked feature specification that matches the request, then requirements written directly in `docs/SPEC.md`, then a bug or regression description, diff, or another explicitly bounded behavior.
 - Read `docs/SPEC.md` when it exists for applicable global rules and approved catalog links. Treat an explicitly selected specification as approved for this task even when unlinked; if its path does not exist, report the missing target and return to `$spec` without silently falling back.
+- In a GitHub Spec Kit project (`.specify/` exists), feature specifications live at `specs/<feature>/spec.md` and have no link catalog. Take the active feature from an explicit selection, then the active feature Spec Kit records (`SPECIFY_FEATURE_DIRECTORY`, then `feature_directory` in `.specify/feature.json`), or the feature directory matching the current Git branch name; ask when none identifies exactly one feature.
 - Read the active feature specification and only linked or cross-referenced specifications needed to interpret the selected behavior. Do not scan other feature documents as test scope merely because they exist under `docs/specs/`.
-- Treat each requirement as specification path plus local `FR-*` or `AC-*` identifier. If bare identifiers occur in multiple linked documents, ask for the feature-specification path.
+- Treat each requirement as specification path plus local `FR-*` or `AC-*` identifier, or Spec Kit `FR-###`, `SC-###`, and acceptance scenarios as `US<n>/AC<n>` (user story number, then the scenario's position in that story). If bare identifiers occur in multiple documents, ask for the feature-specification path.
+- In a Spec Kit project, read the constitution (`.specify/memory/constitution.md`) unless it is still an unfilled template, and treat its testing principles, such as test-first or integration-first rules, as constraints on test level and order. When a principle conflicts with the cheapest sufficient level, follow the principle and state the trade-off. Treat test tasks in `tasks.md` and the testing choices in `plan.md` as evidence of planned coverage, never as requirements.
 - Treat approved requirements as authoritative and code or existing tests as implementation evidence, never as sources of new product requirements.
 - Proceed without `docs/SPEC.md` when the engineer explicitly selects a bug, change, contract, or regression surface whose expected behavior is sufficiently clear.
-- Ask and wait when different interpretations would change observable behavior or the expected assertion. Route unresolved product behavior to `$spec`; do not encode an assumption as a test expectation.
+- Ask and wait when different interpretations would change observable behavior or the expected assertion. Treat a unit with a `[NEEDS CLARIFICATION]` marker as unresolved. Route unresolved product behavior to `$spec`, or to `speckit-clarify` in a Spec Kit project; do not encode an assumption as a test expectation.
 - State the resolved target and whether the request authorizes strategy only or also authorizes test implementation.
 
 ## 2. Inspect risk and existing evidence
@@ -43,7 +45,7 @@ Produce a short risk-based strategy before writing tests. Prefer the cheapest st
 - `OPTIONAL`: Add bounded confidence for lower-risk behavior only when it cannot displace required implementation or validation.
 - `DON'T TEST`: Reject implementation details, duplicated evidence, framework behavior, unstable or disproportionately expensive scenarios, and coverage-only work.
 
-Without a timebox, recommend a proportional minimum set rather than an exhaustive suite. With a timebox, include only work that credibly fits with execution and validation; never hide a critical uncovered risk by silently lowering its priority.
+Without a delivery horizon, recommend a proportional minimum set rather than an exhaustive suite. With a horizon, include only work that credibly fits with execution and validation; never hide a critical uncovered risk by silently lowering its priority.
 
 ## 5. Report before implementation
 

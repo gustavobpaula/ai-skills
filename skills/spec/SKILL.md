@@ -1,6 +1,6 @@
 ---
 name: spec
-description: Turn feature requests, challenge briefs, and product requirements into concise, reviewable global or feature specifications before architecture or implementation work. Use when Codex needs to clarify requirements, define observable acceptance criteria and scope, create or update docs/SPEC.md, maintain a modular specification catalog, or create or update a feature document under docs/specs/. Do not use this skill to design architecture or write implementation code.
+description: Turn feature requests, product briefs, and product requirements into concise, reviewable global or feature specifications before architecture or implementation work. Use when Codex needs to clarify requirements, define observable acceptance criteria and scope, create or update docs/SPEC.md, maintain a modular specification catalog, or create or update a feature document under docs/specs/. Do not use this skill to design architecture, write implementation code, or create a parallel specification catalog in a GitHub Spec Kit project.
 ---
 
 # Specification
@@ -9,13 +9,14 @@ Create or update the smallest appropriate specification artifact while keeping r
 
 ## 1. Gather context
 
-- Read the supplied requirements, constraints, timebox, and relevant project context.
+- Read the supplied requirements, constraints, delivery horizon, and relevant project context.
 - Inspect the repository for facts that affect the specification. Read `docs/SPEC.md` when it exists and follow its explicit feature-specification links when they affect the requested change.
 - Treat explicit requirements and confirmed decisions as authoritative. Do not infer new product scope from the codebase.
 - Separate explicit requirements, confirmed decisions, observed project facts, assumptions, and ambiguities.
 
 ## 2. Select the specification target
 
+- In a GitHub Spec Kit project (`.specify/` exists), Spec Kit owns feature specifications under `specs/<feature>/`. Do not create a parallel `docs/SPEC.md` or `docs/specs/` catalog. Report this, point to `speckit-specify` and `speckit-clarify`, and wait. Continue only when the engineer explicitly asks this skill to revise a selected `specs/<feature>/spec.md`; then preserve that document's structure and identifier format instead of the structure below.
 - Prefer a specification path explicitly supplied by the engineer. If the path does not exist and the request is to update it, report the missing target and ask whether to create it; do not silently switch to `docs/SPEC.md`.
 - Otherwise, update an existing feature specification when exactly one link from `docs/SPEC.md` matches the requested feature.
 - When the project already has linked feature specifications, create a new feature as `docs/specs/<feature-slug>.md` and add a relative Markdown link under `Feature Specifications` in `docs/SPEC.md`.
@@ -27,11 +28,13 @@ Create or update the smallest appropriate specification artifact while keeping r
 ## 3. Resolve material ambiguity
 
 - Treat an ambiguity as material when different answers would change functionality, business rules, scope, platform constraints, or acceptance criteria.
-- Ask and wait for the engineer when a material ambiguity remains. Ask no more than three focused questions per round.
+- Before asking, try to write each criterion at the level of detail the requirements already give. An ambiguity blocks the draft only when no observable criterion can be written without the decision. For example, "an empty title does not create a task" is observable without deciding how the error is displayed, but "invalid rows are handled appropriately" is not.
+- Do not ask about presentation details, adjacent edge cases, or behavior nobody requested. Record a non-blocking refinement under `Open Questions` and leave unrequested behavior out.
+- Ask and wait for the engineer when a blocking ambiguity remains. Ask no more than three focused questions per round, and fewer when the delivery horizon is short.
 - For batch operations that mention both valid and invalid items, resolve whether partial success is allowed or the operation must be atomic.
 - Do not ask for facts that can be discovered safely from the repository.
 - Record minor, non-blocking inferences as assumptions instead of presenting them as requirements.
-- Do not produce the complete draft while a material ambiguity remains unresolved.
+- Do not produce the complete draft while a blocking ambiguity remains unresolved.
 
 ## 4. Draft the specification
 
@@ -65,15 +68,15 @@ Use this structure:
 - Give acceptance criteria identifiers such as `AC-1` and reference the covered requirement, for example `AC-1 [FR-1]`.
 - Allocate identifiers locally within each specification document. The identity of an item is its specification path plus its local identifier; two feature documents may both contain `FR-1` or `AC-1`.
 - Qualify cross-document references with the source path and identifier. Never use a bare identifier when it could refer to more than one document.
-- Write observable acceptance criteria. Ask rather than inventing any missing product decision needed to make a criterion observable.
+- Write observable acceptance criteria at the level of detail the requirements support. Never invent a missing product decision; ask only when no observable criterion is possible without it.
 - Make every item traceable to supplied requirements, confirmed decisions, or relevant observed constraints.
 - Keep assumptions separate from mandatory requirements. Include only non-material assumptions needed to make the draft usable; do not add conventional product defaults.
 - Include only explicit or confirmed exclusions in `Out of Scope`. Do not list common adjacent features merely to demonstrate that they were not requested.
-- Include only supplied edge cases or direct consequences of requirements. Ask when an edge-case policy would materially change behavior.
+- Include only supplied edge cases or direct consequences of requirements. Ask when an edge-case policy blocks a mandatory criterion; otherwise record it under `Open Questions`.
 - Use `Open Questions` only for non-blocking or deliberately deferred questions.
 - State when a section has no supplied or identified items; do not fill it with speculative content.
 - Match the language of the requirements unless the project establishes a different documentation language.
-- Keep a small challenge specification near or below 600 words and reviewable in under two minutes. Prefer completeness over a rigid word limit when the requirements genuinely demand more.
+- Keep a small feature or project specification near or below 600 words and reviewable in a few minutes. Prefer completeness over a rigid word limit when the requirements genuinely demand more.
 
 ## 5. Preserve existing specifications
 

@@ -1,6 +1,6 @@
 ---
 name: arch-design
-description: Design or update durable, proportional project architecture from an approved global or feature specification and existing project context, producing a concise, reviewable docs/ARCHITECTURE.md only when the project needs a new or changed durable decision. Use when Codex needs to define or evolve the technology baseline, boundaries, ownership, integrations, extension rules, testing seams, or architectural trade-offs. Do not use to prescribe feature file names, implement features, or retrospectively review architectural drift.
+description: Design or update durable, proportional project architecture from an approved global or feature specification, project constitution principles, and existing project context, producing a concise, reviewable docs/ARCHITECTURE.md only when the project needs a new or changed durable decision. Use when Codex needs to define or evolve the technology baseline, boundaries, ownership, integrations, extension rules, testing seams, or architectural trade-offs, including deciding whether a GitHub Spec Kit feature or plan requires a durable architecture change. Do not use to write per-feature plans, prescribe feature file names, implement features, or retrospectively review architectural drift.
 ---
 
 # Architecture Design
@@ -9,8 +9,11 @@ Create or update the single global `docs/ARCHITECTURE.md` as a durable set of pr
 
 ## 1. Resolve the active specification
 
-- Read the timebox, technical constraints, relevant project instructions, and `docs/SPEC.md` when it exists.
+- Read delivery and technical constraints, relevant project instructions, and `docs/SPEC.md` when it exists.
 - Prefer a specification path explicitly supplied by the engineer, then a path with selected identifiers, then the single linked feature specification that matches the request, then requirements written directly in `docs/SPEC.md`.
+- In a GitHub Spec Kit project (`.specify/` exists), feature specifications live at `specs/<feature>/spec.md` and have no link catalog. Take the active feature from an explicit selection, then the active feature Spec Kit records (`SPECIFY_FEATURE_DIRECTORY`, then `feature_directory` in `.specify/feature.json`), or the feature directory matching the current Git branch name; ask when none identifies exactly one feature.
+- Read the project constitution when it exists: `.specify/memory/constitution.md` in a Spec Kit project, or another path the project instructions name. Ignore a constitution that is still an unfilled template. Treat its `MUST` and `SHOULD` principles as governing constraints on every architectural decision.
+- When the active Spec Kit feature already has a `plan.md`, read it as a proposal of feature-level technical decisions. Decide which proposals are durable and whether existing rules already cover them; never adopt the plan as approved architecture.
 - Treat an explicitly selected specification as approved for this task even when it is not linked from `docs/SPEC.md`. If its path does not exist, report the missing target and return to `$spec`; do not silently fall back to the root document.
 - Use links from `docs/SPEC.md` as the approved catalog for automatic discovery. Ignore unlinked specifications unless the engineer selects them explicitly.
 - Ask the engineer to choose when multiple linked feature specifications remain plausible. Do not treat the whole catalog as the active architecture target merely because its entries are approved.
@@ -20,7 +23,7 @@ Create or update the single global `docs/ARCHITECTURE.md` as a durable set of pr
 - Read `docs/ARCHITECTURE.md` when it exists.
 - Inspect the repository for the language, frameworks, runtime, build and test tooling, directory organization, dependency direction, state ownership, integrations, and naming conventions.
 - Treat the specification as authoritative for behavior and scope. Treat the codebase as evidence of current technical context, not as a source of new product requirements.
-- Identify every requirement as its specification path plus local `FR-*` or `AC-*` identifier. A bare identifier is insufficient when it appears in more than one document.
+- Identify every requirement as its specification path plus local identifier: `FR-*` or `AC-*`, or Spec Kit `FR-###`, `SC-###`, and acceptance scenarios as `US<n>/AC<n>`. A bare identifier is insufficient when it appears in more than one document.
 
 ## 2. Resolve blocking uncertainty
 
@@ -33,7 +36,9 @@ Create or update the single global `docs/ARCHITECTURE.md` as a durable set of pr
 
 ## 3. Define durable architecture
 
-- Describe rules that should remain valid as features are added. Keep feature-specific implementation plans outside `docs/ARCHITECTURE.md`.
+- Describe rules that should remain valid as features are added. Keep feature-specific implementation plans outside `docs/ARCHITECTURE.md`; in a Spec Kit project they belong in the feature's `plan.md`.
+- Make the constitution and `docs/ARCHITECTURE.md` complementary: the constitution states principles, and the architecture turns the applicable ones into concrete structural rules. Cite a principle by its name instead of restating it.
+- When a required decision conflicts with a constitution principle, surface the conflict and wait for the engineer. Do not weaken the decision silently or treat the constitution as amended.
 - Before drafting a change to an existing architecture, determine whether the active feature requires a new or revised durable boundary, ownership rule, integration, persistence decision, technical baseline, or difficult-to-reverse choice.
 - When the existing architecture already supports the target, report the applicable rules and why they are sufficient, state that no architecture change is required, and leave `docs/ARCHITECTURE.md` untouched.
 - When a durable delta is required, update only the affected architectural concerns while presenting the complete resulting document for approval.
@@ -103,7 +108,7 @@ Use this structure:
 - Reference relevant specification paths with their local `FR-*` or `AC-*` identifiers when they drive a decision; cite unnumbered constraints by path and name.
 - Assign `DD-*` identifiers to intentionally deferred decisions and state the concrete trigger for reconsidering each one. State `None` when no decision is deferred.
 - Match the language of the specification unless the project establishes another documentation language.
-- Keep a small challenge architecture near or below 900 words and reviewable in about four minutes. Prefer durable clarity over a rigid limit.
+- Keep a small project's architecture near or below 900 words and reviewable in a few minutes. Grow it only with durable decisions, and prefer durable clarity over a rigid limit.
 
 ## 7. Preserve an existing architecture
 
@@ -123,5 +128,6 @@ Use this structure:
 - After approval, write exactly the approved draft. Create `docs/` when needed.
 - Treat an explicit instruction to write without preview as approval to bypass the default preview, subject to host permissions and working mode.
 - If writing is not permitted, return the approved Markdown and explain the constraint.
+- When a constitution exists but does not require plans to conform to `docs/ARCHITECTURE.md`, say in the handoff that such a principle would let Spec Kit's plan, analyze, and converge gates enforce the architecture. Leave the amendment to the engineer.
 
-Do not implement application code, change dependencies or configuration, edit any specification, create per-feature architecture documents, enumerate planned feature files, or expand product scope. If the request also asks for implementation, finish any required architecture delta first and keep later work separate.
+Do not implement application code, change dependencies or configuration, edit any specification, plan, task list, or constitution, create per-feature architecture documents, enumerate planned feature files, or expand product scope. If the request also asks for implementation, finish any required architecture delta first and keep later work separate.

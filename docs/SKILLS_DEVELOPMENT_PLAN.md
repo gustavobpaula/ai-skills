@@ -76,17 +76,15 @@ gustavo-ai-skills/
 │   │   └── SKILL.md
 │   ├── debug/
 │   │   └── SKILL.md
-│   ├── security-review/
+│   ├── security-review/      (planned)
 │   │   └── SKILL.md
 │   └── performance-review/
 │       └── SKILL.md
 ├── scripts/
-│   ├── install.sh
-│   ├── install-codex.sh
-│   └── install-claude.sh
+│   ├── install.sh            (core installer, Codex default)
+│   └── install-claude.sh     (Claude Code wrapper)
 ├── docs/
-│   ├── SKILLS_DEVELOPMENT_PLAN.md
-│   └── WORKFLOW.md
+│   └── SKILLS_DEVELOPMENT_PLAN.md
 └── tests/
     └── skills/
 ```
@@ -95,7 +93,7 @@ gustavo-ai-skills/
 
 This repository is the canonical version of all skills.
 
-Do not maintain independent copies inside challenge/application repositories. Improvements should happen in one place and be versioned with Git.
+Do not maintain independent copies inside application repositories. Improvements should happen in one place and be versioned with Git.
 
 ## Global skills, local context
 
@@ -134,7 +132,7 @@ project/
 └── ...
 ```
 
-Skills should read these local artifacts when they need project context.
+Skills should read these local artifacts when they need project context. Projects that use GitHub Spec Kit keep its artifacts as well (`.specify/memory/constitution.md` and `specs/<feature>/`); see section 11.
 
 ---
 
@@ -168,7 +166,7 @@ Agent-specific adapters can handle differences between Codex, Claude Code, or ot
 
 Keep the core `SKILL.md` files as tool-agnostic as practical. Agent-specific metadata or conventions should live in the installation/adaptation layer when possible.
 
-For live coding interviews, all required skills should be installed and tested **before the interview starts**. No interview time should be spent setting up the toolbox.
+Install and verify the skills once per machine and agent. Starting a new project or delivery should not require setting up the toolbox again.
 
 Do not build a package registry, npm distribution system, or complex CLI unless a real need emerges. Git + simple installation/synchronization is enough initially.
 
@@ -183,7 +181,7 @@ Do not build a package registry, npm distribution system, or complex CLI unless 
 | P0 | `feature-implementation` | Implement features using SPEC + architecture |
 | P0 | `requirements-review` | Validate implementation against requirements |
 | P0 | `code-review` | Execute the final engineering quality gate |
-| P1 | `delivery-check` | Prioritize remaining work under a time constraint |
+| P1 | `delivery-check` | Prioritize remaining work against a delivery horizon |
 | P1 | `test-strategy` | Determine highest-value tests based on risk |
 | P1 | `arch-review` | Detect architectural drift and overengineering |
 | P1 | `simplify` | Reduce accidental complexity |
@@ -220,13 +218,13 @@ These skills should be implemented and tested before expanding the toolbox.
 
 ### Purpose
 
-Convert a challenge description or feature request into the smallest appropriate approved specification. Keep `docs/SPEC.md` as a standalone small-project specification or the canonical global specification and index; place modular feature specifications under `docs/specs/` as the product grows.
+Convert a product brief or feature request into the smallest appropriate approved specification. Keep `docs/SPEC.md` as a standalone small-project specification or the canonical global specification and index; place modular feature specifications under `docs/specs/` as the product grows.
 
 ### Inputs
 
 - Original requirements
 - Constraints
-- Available time/timebox
+- Delivery horizon (deadline, release date, or capacity), when relevant
 - Existing project context, when applicable
 
 ### Output
@@ -265,13 +263,13 @@ Suggested structure:
 - Do not generate implementation code unless explicitly requested.
 - Prioritize requirements that determine whether the delivery is complete.
 
-### Interview constraint
+### Review constraint
 
-The generated specification should normally take less than two minutes for an engineer to review.
+A small feature or project specification should normally take only a few minutes for an engineer to review.
 
 ### Definition of Done
 
-Given a small live-coding challenge, the skill produces a concise standalone specification. As the product grows, it can add an approved feature document and catalog link without renumbering or rewriting unrelated legacy requirements.
+Given a small product brief, the skill produces a concise standalone specification. As the product grows, it can add an approved feature document and catalog link without renumbering or rewriting unrelated legacy requirements.
 
 ---
 
@@ -286,8 +284,10 @@ Analyze the active global or feature specification and project context, then cre
 - The explicitly selected feature specification, or `docs/SPEC.md` as fallback
 - Applicable global rules from `docs/SPEC.md`
 - Existing codebase, if present
+- Project constitution, when present (GitHub Spec Kit)
+- Feature `plan.md`, when present (GitHub Spec Kit)
 - Technical constraints
-- Time constraints
+- Delivery constraints
 
 ### Output
 
@@ -343,6 +343,8 @@ For every proposed abstraction, answer:
 - Avoid speculative repositories, mappers, global state, use-case layers, or generic abstractions unless justified.
 - Explicitly document important decisions intentionally postponed.
 - Architecture may evolve when requirements justify it.
+- Turn applicable constitution principles into concrete structural rules; cite principles instead of restating them.
+- Read a feature plan as a proposal: record only its durable decisions, never its file layout or task breakdown.
 
 ### Definition of Done
 
@@ -392,6 +394,7 @@ Validate
 - Do not silently change architectural decisions.
 - Do not expand feature scope beyond the specification.
 - Prefer complete vertical functionality over broad unfinished infrastructure.
+- In a Spec Kit project, leave a feature with an in-progress `tasks.md` to the Spec Kit implementation workflow unless the engineer explicitly selects units to implement.
 
 ### Architectural conflict behavior
 
@@ -459,6 +462,7 @@ AMBIGUOUS
 - Do not recommend unrelated refactors.
 - Do not mark inferred requirements as mandatory unless they were accepted into the spec.
 - Keep the review read-only and leave fixes to an explicitly requested implementation workflow.
+- In a Spec Kit specification, review each acceptance scenario as `US<n>/AC<n>` and each `FR-###`; treat plans, tasks, and checklists as evidence, never as requirements.
 
 ### Definition of Done
 
@@ -523,7 +527,7 @@ The skill provides a concise, prioritized review and correctly executes the proj
 
 **Do not immediately continue to Phase 2 after writing the five P0 skills.**
 
-Run at least one complete 60-minute challenge using:
+Run at least one complete feature delivery on a real or representative product using:
 
 ```text
 spec
@@ -543,7 +547,7 @@ Evaluate:
 - Did `arch-design` introduce unjustified abstractions?
 - Did `feature-implementation` actually respect the documents?
 - Did reviews return too much low-value feedback?
-- Did the workflow leave enough time for a working final product?
+- Did the workflow overhead stay proportional to the delivered increment?
 
 Refine P0 skills before expanding the toolbox.
 
@@ -555,14 +559,15 @@ Refine P0 skills before expanding the toolbox.
 
 ### Purpose
 
-Help prioritize remaining work when delivery time is limited.
+Help prioritize remaining product delivery work against a deadline, release or milestone date, remaining duration, or available capacity. The same checkpoint applies to a same-day release cut and to a multi-week release.
 
 ### Inputs
 
-- `SPEC.md`
+- `SPEC.md`, selected feature specifications, or a release scope
 - `ARCHITECTURE.md`, when relevant
-- Current implementation
-- Time remaining
+- Current implementation and validation evidence
+- Spec Kit `tasks.md`, when present (evidence of remaining work, not requirements)
+- Delivery horizon and available capacity
 
 ### Output
 
@@ -578,14 +583,16 @@ SKIP
 ### Rules
 
 - Requirements and broken functionality outrank refactoring.
-- Consider the actual remaining time.
+- Convert the horizon to usable working capacity and state the assumptions.
+- Reserve capacity for validation and the release activities the project requires.
+- Estimate in the unit the horizon calls for; use ranges for multi-day horizons.
 - Do not suggest broad new features.
 - Explicitly identify work that should be skipped.
 - Prefer completing an end-to-end flow over partially implementing multiple improvements.
 
 ### Definition of Done
 
-With 10–20 minutes remaining in a simulated challenge, recommendations are realistic enough to execute within the remaining time.
+For both a same-day checkpoint and a multi-day release, recommendations fit the stated capacity, reserve validation and release work, and surface scope or date decisions instead of hiding risk.
 
 ---
 
@@ -630,7 +637,9 @@ The skill can distinguish critical tests from low-value tests in both simple and
 
 ### Purpose
 
-Compare the implementation against `ARCHITECTURE.md` and identify architectural drift, missing structure, or excessive structure.
+Compare the implementation against `ARCHITECTURE.md` and identify architectural drift, missing structure, or excessive structure. Keep delivered work consistent with the durable architecture over time.
+
+In a Spec Kit project, the constitution's structural principles join the baseline, and the feature `plan.md` is reviewed as evidence: a plan never approves a deviation from `ARCHITECTURE.md`.
 
 ### Review areas
 
@@ -660,6 +669,7 @@ FUTURE
 - Review both under-engineering and overengineering.
 - Do not recommend abstractions solely for hypothetical future requirements.
 - Distinguish implementation drift from outdated documentation.
+- Require `ARCHITECTURE.md`; a constitution or feature plan does not substitute for it.
 - Do not rewrite the application during review.
 
 ### Definition of Done
@@ -800,7 +810,7 @@ Identify security risks relevant to the actual application.
 ### Rules
 
 - Keep findings contextual.
-- Do not generate a generic backend security checklist for a simple frontend challenge.
+- Do not generate a generic backend security checklist for a simple frontend application.
 - Distinguish real vulnerabilities from theoretical concerns.
 - Prioritize exploitable or high-impact issues.
 
@@ -896,18 +906,16 @@ Refine the skill when these behaviors appear.
 
 ---
 
-# 11. Recommended Interview Toolbox
+# 11. Recommended Delivery Workflow
 
-Do not try to demonstrate every available skill during a one-hour interview.
-
-Have the toolbox installed, but select skills based on the actual problem.
+Do not run every skill on every delivery. Keep the toolbox installed and select skills based on the actual problem.
 
 Recommended default sequence:
 
 ```text
 spec
     ↓
-arch-design
+arch-design (only when a durable decision changes)
     ↓
 feature-implementation
     ↓
@@ -918,67 +926,70 @@ code-review
 requirements-review
 ```
 
-Use `delivery-check` at a meaningful checkpoint when time becomes a constraint.
+Use `delivery-check` at meaningful checkpoints: milestones, before a release cut, and whenever scope, capacity, or the deadline changes.
 
 Invoke specialists only when justified:
 
 ```text
 a11y-review       → relevant UI/accessibility concerns
-security-review   → relevant trust/input/security surface
+security-review   → relevant trust/input/security surface (planned)
 performance-review→ evidence of meaningful performance risk
 simplify          → complexity has grown
-arch-review       → architecture needs validation
+arch-review       → before merging work that touches boundaries, ownership, or integrations
 debug             → an actual failure requires diagnosis
 ```
 
-A good interview explanation is:
+## With GitHub Spec Kit
 
-> I maintain reusable engineering skills for recurring AI-assisted workflows. I do not run all of them automatically. I choose the specialists that make sense for the problem, while project-specific requirements and architectural decisions remain inside the repository.
+Spec Kit owns specification, planning, and task execution. These skills act as quality and decision gates around it. Spec Kit commands are skills: `/speckit-<command>` in Claude Code, `$speckit-<command>` in Codex.
+
+The skills resolve the active Spec Kit feature from an explicit path, then `SPECIFY_FEATURE_DIRECTORY` or `feature_directory` in `.specify/feature.json` (written by `speckit-specify`), then the Git branch name when the `git` extension creates feature branches. Feature directories use sequential (`001-name`) or timestamp prefixes.
+
+```text
+/speckit-constitution   → principles and governance
+arch-design             → durable docs/ARCHITECTURE.md (once, then only for durable deltas)
+/speckit-specify → /speckit-clarify → /speckit-plan → /speckit-tasks → /speckit-analyze
+arch-design             → only when the plan needs a durable architecture change
+/speckit-implement → /speckit-converge
+requirements-review     → independent coverage gate (active feature or specs/<feature>/spec.md)
+code-review / arch-review / specialists as justified
+feature-implementation  → targeted corrections from reviews, outside an in-progress tasks.md
+delivery-check          → at milestones and before release
+```
+
+Keep each layer distinct:
+
+| Artifact | Owns | Changes |
+|---|---|---|
+| `.specify/memory/constitution.md` | Principles and governance (`MUST`/`SHOULD`) | Rarely, by explicit amendment |
+| `docs/ARCHITECTURE.md` | Concrete durable structure (`AD-*`, `DD-*`, boundaries, conventions) | Only through `arch-design` |
+| `specs/<feature>/plan.md` | One feature's application of the architecture | Per feature |
+
+`/speckit-converge` keeps the code converging toward the feature's own spec, plan, and tasks. `requirements-review` stays as the independent, read-only gate: it compares the code with the specification alone and classifies coverage before delivery. In Spec Kit specifications it reviews each acceptance scenario (`US<n>/AC<n>`) and each `FR-###`.
+
+`feature-implementation` remains the implementer for projects without Spec Kit. In Spec Kit projects it handles targeted corrections and small changes and never runs in parallel with an in-progress `tasks.md`.
+
+Add a constitution principle requiring every plan to conform to `docs/ARCHITECTURE.md`, with deviations resolved through `arch-design` first. Spec Kit's plan, analyze, and converge gates then enforce the architecture, and `arch-review` checks the delivered code against it.
 
 ---
 
-# 12. Suggested 60-Minute Challenge Workflow
+# 12. Fitting the Workflow to the Delivery Horizon
 
-Target only; adapt to the challenge.
+Adapt the workflow to the horizon supplied for the delivery. Allocate effort as proportions of the usable capacity rather than fixed durations:
 
-```text
-00–05 min
-Read requirements
-Run spec
-Review assumptions / clarify important ambiguity
+| Share of horizon | Activity |
+|---|---|
+| ~10% | Read requirements, run `spec`, resolve material ambiguity |
+| ~5% | Run `arch-design` only when a durable decision changes |
+| ~55–60% | Implement vertically and keep the application releasable |
+| at ~⅔ | `delivery-check`: reprioritize remaining work |
+| ~15% | Critical tests, error and edge states, contextual a11y/security |
+| ~10% | `code-review` and targeted `arch-review`; fix only high-value findings |
+| ~5% | `requirements-review`, release activities, verification |
 
-05–08 min
-Run arch-design
-Review major decisions
-Keep ARCHITECTURE.md concise
+For multi-week horizons, apply the proportions per increment or release, not once for the whole product.
 
-08–43 min
-Implement vertically
-Use feature-implementation where it adds speed
-Keep the application runnable
-
-~40 min
-Optional delivery-check
-Reprioritize remaining work
-
-43–52 min
-Critical tests
-Error/edge states
-Contextual a11y/security improvements
-
-52–57 min
-code-review / targeted arch-review
-Fix only high-value findings
-
-57–60 min
-requirements-review
-Run application
-Demonstrate final result
-```
-
-Documentation must accelerate the implementation rather than consume the interview.
-
-For a one-hour challenge, `SPEC.md` and `ARCHITECTURE.md` should remain intentionally concise.
+Documentation must accelerate delivery rather than consume it. Keep `SPEC.md` and `ARCHITECTURE.md` as short as the product's durable decisions allow.
 
 ---
 
@@ -999,8 +1010,8 @@ For a one-hour challenge, `SPEC.md` and `ARCHITECTURE.md` should remain intentio
 - [ ] `feature-implementation`
 - [ ] `requirements-review`
 - [ ] `code-review`
-- [ ] Run first 60-minute simulation
-- [ ] Refine all P0 skills based on simulation
+- [ ] Run a first end-to-end feature delivery
+- [ ] Refine all P0 skills based on that delivery
 
 ## Milestone 2 — Decision support
 
@@ -1008,7 +1019,7 @@ For a one-hour challenge, `SPEC.md` and `ARCHITECTURE.md` should remain intentio
 - [ ] `test-strategy`
 - [ ] `arch-review`
 - [ ] `simplify`
-- [ ] Run second 60-minute simulation
+- [ ] Run a second delivery that includes a release checkpoint
 - [ ] Measure whether skills reduce or add cognitive/time overhead
 
 ## Milestone 3 — Specialists
@@ -1018,14 +1029,14 @@ For a one-hour challenge, `SPEC.md` and `ARCHITECTURE.md` should remain intentio
 - [ ] `security-review`
 - [ ] `performance-review`
 
-## Milestone 4 — Interview readiness
+## Milestone 4 — Delivery readiness
 
-- [ ] All P0 skills installed globally
-- [ ] `delivery-check` installed
-- [ ] At least 2–3 full timed simulations completed
+- [ ] All skills installed globally for each agent in use
+- [ ] At least 2–3 deliveries completed against real deadlines or release dates
 - [ ] Skills tested on a clean project
+- [ ] Spec Kit integration verified on a sample project
 - [ ] Installation/update process verified
-- [ ] No setup required during interview
+- [ ] No per-project setup required
 - [ ] Comfortable explaining why each invoked skill is relevant
 - [ ] Comfortable rejecting AI recommendations when inappropriate
 
@@ -1040,7 +1051,7 @@ The toolbox is successful when it helps the engineer:
 3. Keep implementation aligned with those decisions.
 4. Deliver working vertical functionality quickly.
 5. Detect missing requirements before delivery.
-6. Prioritize correctly under time pressure.
+6. Prioritize correctly against deadlines and available capacity.
 7. Apply specialized reviews only when relevant.
 8. Reduce repeated prompting and recurring manual checks.
 9. Preserve engineer ownership over decisions.
