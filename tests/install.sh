@@ -116,4 +116,23 @@ ln -s "$test_root/other" "$wrong_link_target/spec"
 expect_failure env AI_SKILLS_TARGET_DIR="$wrong_link_target" "$installer" spec
 [ "$(readlink "$wrong_link_target/spec")" = "$test_root/other" ] || fail 'conflicting symlink was changed'
 
+claude_installer="$repo_root/scripts/install-claude.sh"
+
+sh -n "$claude_installer"
+bash -n "$claude_installer"
+
+claude_target="$test_root/claude target dir"
+AI_SKILLS_TARGET_DIR="$claude_target" "$claude_installer" spec code-review >/dev/null
+[ -L "$claude_target/spec" ] || fail 'claude installer did not create a symlink'
+[ "$(readlink "$claude_target/spec")" = "$expected_spec_source" ] || fail 'claude spec symlink is not absolute or points to the wrong source'
+[ -L "$claude_target/code-review" ] || fail 'claude installer did not create the code-review symlink'
+[ "$(readlink "$claude_target/code-review")" = "$expected_code_review_source" ] || fail 'claude code-review symlink is not absolute or points to the wrong source'
+
+fake_home="$test_root/fake-home"
+mkdir -p "$fake_home"
+env -u AI_SKILLS_TARGET_DIR HOME="$fake_home" "$claude_installer" spec >/dev/null
+[ -L "$fake_home/.claude/skills/spec" ] || fail 'claude installer did not default to ~/.claude/skills'
+[ "$(readlink "$fake_home/.claude/skills/spec")" = "$expected_spec_source" ] || fail 'claude default-target spec symlink points to the wrong source'
+[ ! -e "$fake_home/.agents/skills" ] || fail 'claude installer touched the Codex default directory'
+
 printf 'PASS: installer syntax and smoke tests\n'
