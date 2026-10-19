@@ -1,0 +1,118 @@
+tests/skills/arch-review/spec-kit-plan-drift.md
+  s_b4ec4140b7ec5c::t_c399ea7629708a 21-22
+  s_b4ec4140b7ec5c::t_fae1335b287e0a 1-20,23-29
+tests/skills/arch-design/spec-kit-constitution.md
+  s_b4ec4140b7ec5c::t_fae1335b287e0a 1-23
+skills/arch-design/SKILL.md
+  s_b4ec4140b7ec5c::t_a8cc6c1fcf8964 111
+  s_b4ec4140b7ec5c::t_d8a7ed6315c486 131,133
+  s_b4ec4140b7ec5c::t_f572e85f5c3b01 3
+  s_b4ec4140b7ec5c::t_f04e7c3beb6dfb 39-41
+  s_b4ec4140b7ec5c::t_27a3b4be2dc8b6 14-15
+  s_b4ec4140b7ec5c::t_66bc09af2c81c9 26
+  s_b4ec4140b7ec5c::t_6c35ed90d43256 12,16
+tests/skills/arch-review/spec-kit-missing-architecture.md
+  s_b4ec4140b7ec5c::t_fae1335b287e0a 1-21
+skills/test-strategy/SKILL.md
+  s_b4ec4140b7ec5c::t_27a3b4be2dc8b6 12,15,17-18,21,48
+tests/skills/spec/spec-kit-project.md
+  s_b4ec4140b7ec5c::t_6dc3a14ed0ff9b 1-14,17-21
+  s_b4ec4140b7ec5c::t_984e1ac46bb398 15
+  s_b4ec4140b7ec5c::t_2651f1f6b066be 16
+skills/delivery-check/agents/openai.yaml
+  s_b4ec4140b7ec5c::t_5b577c3c3fce63 3-4
+tests/skills/requirements-review/spec-kit-scenarios.md
+  s_b4ec4140b7ec5c::t_da9980ebd915c0 1-20,22-30
+  s_b4ec4140b7ec5c::t_984e1ac46bb398 21
+tests/skills/test-strategy/spec-kit-target.md
+  s_b4ec4140b7ec5c::t_984e1ac46bb398 5,9-10,18,25
+  s_b4ec4140b7ec5c::t_6dc3a14ed0ff9b 1-4,6-8,11-17,19-24,26-28
+tests/skills/delivery-check/mandatory-work-exceeds-time.md
+  s_b4ec4140b7ec5c::t_c947a62c51945d 17
+tests/speckit-sandbox.sh
+  s_b4ec4140b7ec5c::t_0630f70691318a 1-42
+tests/skills/delivery-check/release-horizon.md
+  s_b4ec4140b7ec5c::t_fae1335b287e0a 1-15,17-26
+  s_b4ec4140b7ec5c::t_9e884226c28828 16
+README.md
+  s_b4ec4140b7ec5c::t_609496ba9f99d8 19,45-50,97-99
+skills/arch-review/SKILL.md
+  s_b4ec4140b7ec5c::t_700e929567bb25 84
+  s_b4ec4140b7ec5c::t_47d2f82f8d7e58 58
+  s_b4ec4140b7ec5c::t_2ca605c4d6c3ed 83
+  s_b4ec4140b7ec5c::t_3b43ccc448620e 93-94
+  s_b4ec4140b7ec5c::t_41f483c9130c4b 37-38
+  s_b4ec4140b7ec5c::t_b7c2d0776b3149 57
+  s_b4ec4140b7ec5c::t_0f7cf3338318c5 13,16,21-22
+  s_b4ec4140b7ec5c::t_27a3b4be2dc8b6 15,18
+  s_b4ec4140b7ec5c::t_e109b8a782ac62 3
+  s_b4ec4140b7ec5c::t_0b4664dedc0f7a 60
+skills/requirements-review/SKILL.md
+  s_b4ec4140b7ec5c::t_6e17c2a8575b08 31-34
+  s_b4ec4140b7ec5c::t_d6bfe110b5300c 19
+  s_b4ec4140b7ec5c::t_27a3b4be2dc8b6 17,95
+  s_b4ec4140b7ec5c::t_3d4cd4bfdcd7bf 3
+tests/skills/delivery-check/missing-time-limit.md
+  s_b4ec4140b7ec5c::t_bba7eeaed5816f 1,9,14,19
+tests/skills/requirements-review/spec-kit-catalog.md
+  s_b4ec4140b7ec5c::t_da9980ebd915c0 1-23
+tests/skills/arch-design/spec-kit-plan-durable-delta.md
+  s_b4ec4140b7ec5c::t_a1611bcd72e1a7 15-16
+  s_b4ec4140b7ec5c::t_fae1335b287e0a 1-14,17-23
+tests/skills/delivery-check/spec-kit-tasks.md
+  s_b4ec4140b7ec5c::t_fae1335b287e0a 1-25
+skills/delivery-check/SKILL.md
+  s_b4ec4140b7ec5c::t_11a3d6cb9786ad 62
+  s_b4ec4140b7ec5c::t_27a3b4be2dc8b6 16
+  s_b4ec4140b7ec5c::t_a40e328d090e4e 102-103
+  s_b4ec4140b7ec5c::t_ec17a3ebd159a5 3,8,13-14,23-26,29,34-35,37,46-47,51,56,58-61,69,81-83,87,99,110-111,113
+tests/skills/feature-implementation/spec-kit-tasks-in-progress.md
+  s_b4ec4140b7ec5c::t_da9980ebd915c0 1-21
+tests/skills/delivery-check/time-constrained-core.md
+  s_b4ec4140b7ec5c::t_bba7eeaed5816f 5
+tests/skills/spec/simple-project.md
+  s_b4ec4140b7ec5c::t_bba7eeaed5816f 5,7,18
+tests/skills/arch-review/spec-kit-approved-plan-decision.md
+  s_b4ec4140b7ec5c::t_fae1335b287e0a 1-22
+tests/SPEC_KIT_RUNBOOK.md
+  s_b4ec4140b7ec5c::t_15c7f841a8d530 22
+  s_b4ec4140b7ec5c::t_b8d8c9678178e8 1-21,23-59
+tests/skills/feature-implementation/spec-kit-targeted-correction.md
+  s_b4ec4140b7ec5c::t_da9980ebd915c0 1-24
+docs/SKILLS_DEVELOPMENT_PLAN.md
+  s_b4ec4140b7ec5c::t_984e1ac46bb398 135,944,946-947,949,951,953-954,966-968
+  s_b4ec4140b7ec5c::t_da9980ebd915c0 96,169,184,221,227,266,268,272,287-288,290,346-347,397,465,530,550,562,566,568-570,586-588,595,640-642,672,813,909,911,918,929,938,942-943,945,948,950,952,955-965,970-972,976,978,980-988,990,992,1013-1014,1022,1032,1034-1035,1037,1039,1054
+  s_b4ec4140b7ec5c::t_6dc3a14ed0ff9b 79,84-85,87,935
+skills/feature-implementation/SKILL.md
+  s_b4ec4140b7ec5c::t_28a3134c628628 3
+  s_b4ec4140b7ec5c::t_00377ec92dd879 108-109
+  s_b4ec4140b7ec5c::t_27a3b4be2dc8b6 17-18,47
+  s_b4ec4140b7ec5c::t_5f9e0ac59e747f 90
+  s_b4ec4140b7ec5c::t_b0a4ced056ef61 26-28
+skills/spec/SKILL.md
+  s_b4ec4140b7ec5c::t_a4c4d337af7ce1 37
+  s_b4ec4140b7ec5c::t_bba7eeaed5816f 12,79
+  s_b4ec4140b7ec5c::t_1e019c078dfebc 3
+  s_b4ec4140b7ec5c::t_a9156ee2978be5 31-33
+  s_b4ec4140b7ec5c::t_27a3b4be2dc8b6 19
+  s_b4ec4140b7ec5c::t_87ec9ef8a7b005 71
+  s_b4ec4140b7ec5c::t_8d9d5425ffef8e 75
+tests/skills/spec/scope-creep.md
+  s_b4ec4140b7ec5c::t_bba7eeaed5816f 5,15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "6198cfb23353b0a958b38e9a71c2b1ddcb2b531f",
+  "prompts": {},
+  "sessions": {
+    "s_b4ec4140b7ec5c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5d63ecdb-56c9-4b3c-8c12-1f43dfd6a4a3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Gustavo Bento de Paula <gustavob.paula@gmail.com>"
+    }
+  }
+}
