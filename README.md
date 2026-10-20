@@ -84,7 +84,17 @@ Install for both agents by running both installers; each only touches its own ta
 
 ## Update
 
-Pull or check out the desired repository revision. Installed skills update immediately because their global entries are symlinks to this canonical repository; no copying or reinstalling is required unless the repository moves.
+Pull or check out the desired repository revision. Installed skills update immediately because their global entries are symlinks to this canonical repository; no copying or reinstalling is required unless the repository moves. To pin a release, check out its tag, for example `git checkout v0.2.0`.
+
+## Versioning
+
+The repository is versioned as a whole with [Semantic Versioning](https://semver.org); individual skills are not versioned separately. Git tags (`vX.Y.Z`) and [CHANGELOG.md](CHANGELOG.md) are the only sources of the version.
+
+- **MAJOR**: breaks what projects rely on, such as document paths, identifier formats, output structures other skills consume, or a removed or renamed skill.
+- **MINOR**: adds a compatible capability, such as a new skill or integration.
+- **PATCH**: adjusts a rule within the existing contract.
+
+While the version is below 1.0.0, contracts may still change between minor versions. Record every change under `Unreleased` in the changelog. To release, rename that section to the new version and date, commit, and tag the commit.
 
 ## Test
 
