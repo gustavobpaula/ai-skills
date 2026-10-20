@@ -4,6 +4,10 @@ All notable changes to this repository are documented here. The format follows [
 
 ## [Unreleased]
 
+### Changed
+
+- The release process in the README now includes publishing a GitHub Release with the version's changelog notes.
+
 ## [0.2.0] - 2026-10-20
 
 ### Added

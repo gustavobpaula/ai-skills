@@ -94,7 +94,11 @@ The repository is versioned as a whole with [Semantic Versioning](https://semver
 - **MINOR**: adds a compatible capability, such as a new skill or integration.
 - **PATCH**: adjusts a rule within the existing contract.
 
-While the version is below 1.0.0, contracts may still change between minor versions. Record every change under `Unreleased` in the changelog. To release, rename that section to the new version and date, commit, and tag the commit.
+While the version is below 1.0.0, contracts may still change between minor versions. Record every change under `Unreleased` in the changelog. To release, rename that section to the new version and date, commit, tag the commit, push the commit and tag, and publish a GitHub Release whose notes are that version's changelog section:
+
+```sh
+gh release create vX.Y.Z --verify-tag --title vX.Y.Z --notes-file <notes.md>
+```
 
 ## Test
 
