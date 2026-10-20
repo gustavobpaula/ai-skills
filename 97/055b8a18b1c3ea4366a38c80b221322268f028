@@ -1,0 +1,21 @@
+README.md
+  s_b4ec4140b7ec5c::t_d6f76466aca4e3 97-101
+CHANGELOG.md
+  s_b4ec4140b7ec5c::t_12357ecb877332 7-10
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "97055b8a18b1c3ea4366a38c80b221322268f028",
+  "prompts": {},
+  "sessions": {
+    "s_b4ec4140b7ec5c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5d63ecdb-56c9-4b3c-8c12-1f43dfd6a4a3",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Gustavo Bento de Paula <gustavob.paula@gmail.com>"
+    }
+  }
+}
